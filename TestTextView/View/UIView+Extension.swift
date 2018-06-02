@@ -6,4 +6,19 @@
 //  Copyright © 2018年 坂本貴宏. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+extension UIView {
+    func viewToImage(view: UIView) -> UIImage {
+        let rect = view.bounds
+        
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+        let context: CGContext = UIGraphicsGetCurrentContext()!
+        
+        view.layer.render(in: context)
+        
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
+}
