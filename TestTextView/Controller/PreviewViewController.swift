@@ -11,6 +11,7 @@ import RegeributedTextView
 import Alamofire
 import SwiftyJSON
 import Fuzi
+import WebKit
 
 class PreviewViewController: UIViewController {
     var convertAttributeText: NSAttributedString!
@@ -18,14 +19,19 @@ class PreviewViewController: UIViewController {
     var testHTML: String!
 
     @IBOutlet weak var textView: RegeributedTextView!
-    let webView = UIWebView()
+    let indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView.frame = self.view.frame
+        let wkWebView = WKWebView(frame: self.view.frame)
+        //self.view.addSubview(wkWebView)
+        testHTML = testHTML.replacingOccurrences(of: "<html>", with: "<html><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><style> body { font-size: 130%; font-family: Helvetica} </style>")
         
-        self.view.addSubview(webView)
-        print(self.testHTML)
+        print("\(self.testHTML!) ← Previewで表示させるHTML")
+        
+       
+        
+//        self.showIndicator()
 //        Alamofire.request("http", method: .get).responseString { (responce) in
 //            guard let object = responce.result.value else {
 //                print("取得できなかった")
@@ -39,10 +45,13 @@ class PreviewViewController: UIViewController {
 //                print("エラーよーー")
 //            }
 //
+//            self.indicator.stopAnimating()
 //            self.convertAttributeText = object.convertHtml(withFont: UIFont(name: "Helvetica", size: 16), align: .left)
 //        }
         
-         webView.loadHTMLString(testHTML, baseURL: nil)
+       
+        wkWebView.loadHTMLString(testHTML, baseURL: nil)
+        print(wkWebView.title)
         
        // textView.attributedText = convertAttributeText
         textView.dataDetectorTypes = .link
@@ -52,11 +61,11 @@ class PreviewViewController: UIViewController {
         
         textView.placeHolder = ""
         
-        let titleAttibuteText = NSMutableAttributedString(string: titleText + "\n\n\n")
-        //フォントサイズ、太字にする文字位置を設定
-        titleAttibuteText.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 28), range: NSMakeRange(0, titleText.count))
-
-        titleAttibuteText.append(self.textView.attributedText)
+//        let titleAttibuteText = NSMutableAttributedString(string: titleText + "\n\n\n")
+//        //フォントサイズ、太字にする文字位置を設定
+//        titleAttibuteText.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 28), range: NSMakeRange(0, titleText.count))
+//
+//        titleAttibuteText.append(self.textView.attributedText)
         //self.textView.attributedText = titleAttibuteText
         
         
@@ -64,7 +73,8 @@ class PreviewViewController: UIViewController {
         let documentAttribues = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
         let html = try! attText?.data(from: NSRange(location: 0, length: (attText?.length)!), documentAttributes: documentAttribues)
         let htmlString = String(data: html!, encoding: .utf8)
-       //self.textView.attributedText = testConvert//htmlString
+       self.textView.attributedText = testHTML.convertHtml(withFont: UIFont(name: "Helvetica", size: 16))//htmlString
+        print(self.textView.attributedText)
     }
     
 //    override func viewWillAppear(_ animated: Bool) {
@@ -75,6 +85,14 @@ class PreviewViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     
+    }
+    
+    func showIndicator() {
+        indicator.activityIndicatorViewStyle = .whiteLarge
+        indicator.center = self.view.center
+        indicator.hidesWhenStopped = true
+        self.view.addSubview(indicator)
+        indicator.startAnimating()
     }
     
 }
