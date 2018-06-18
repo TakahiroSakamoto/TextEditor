@@ -14,7 +14,6 @@
 		3D342B7A2089E3EA0014C198 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B792089E3EA0014C198 /* UserManager.swift */; };
 		3D342B7C208D95BF0014C198 /* TitleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B7B208D95BF0014C198 /* TitleTextView.swift */; };
 		3D38478F20A8481000F3337F /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38478E20A8481000F3337F /* PreviewViewController.swift */; };
-		3D6EB6EA20B7DCA60049413E /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6EB6E920B7DCA60049413E /* SetupViewController.swift */; };
 		3D826D0A207C992400F27E10 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D826D09207C992400F27E10 /* UIImage+Extension.swift */; };
 		3DAAA4D1204FB0C500A6A1DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAAA4D0204FB0C500A6A1DB /* AppDelegate.swift */; };
 		3DAAA4D3204FB0C500A6A1DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAAA4D2204FB0C500A6A1DB /* ViewController.swift */; };
@@ -34,7 +33,6 @@
 		3D342B792089E3EA0014C198 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		3D342B7B208D95BF0014C198 /* TitleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextView.swift; sourceTree = "<group>"; };
 		3D38478E20A8481000F3337F /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
-		3D6EB6E920B7DCA60049413E /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		3D826D09207C992400F27E10 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		3DAAA4CD204FB0C500A6A1DB /* TestTextView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestTextView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DAAA4D0204FB0C500A6A1DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,7 +82,6 @@
 			children = (
 				3DAAA4D2204FB0C500A6A1DB /* ViewController.swift */,
 				3D38478E20A8481000F3337F /* PreviewViewController.swift */,
-				3D6EB6E920B7DCA60049413E /* SetupViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -289,7 +286,6 @@
 			files = (
 				3D18808A20860A540095EA69 /* UIView+Extension.swift in Sources */,
 				3DAAA4D3204FB0C500A6A1DB /* ViewController.swift in Sources */,
-				3D6EB6EA20B7DCA60049413E /* SetupViewController.swift in Sources */,
 				3D38478F20A8481000F3337F /* PreviewViewController.swift in Sources */,
 				3DAAA4D1204FB0C500A6A1DB /* AppDelegate.swift in Sources */,
 				3D826D0A207C992400F27E10 /* UIImage+Extension.swift in Sources */,

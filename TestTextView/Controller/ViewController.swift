@@ -82,9 +82,6 @@ import SystemConfiguration
     var isVideo = false
     var isCheckInsertVideo = false
     
-   // let scrollView = UIScrollView()
-   // @IBOutlet weak var scrollView: UIScrollView!
-    
     // キーボードのCGRect
     var keyboardFrame: CGRect!
     var i = 0
@@ -136,13 +133,8 @@ import SystemConfiguration
         self.textView.becomeFirstResponder()
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillBeShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         textView.font = UIFont.systemFont(ofSize: 16)
-       // scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.scrollView.frame.height + 100)
         print(textView.frame.maxY)
-       // scrollView.backgroundColor = UIColor.darkGray
         self.view.addSubview(textView)
-       // titleTextView.frame = CGRect(x: 0, y: self.textView.frame.origin.y - 6, width: self.view.frame.width, height: 54)
-//        self.scrollView.addSubview(titleTextView)
-//        self.scrollView.addSubview(textView)
         
     }
     
@@ -164,22 +156,6 @@ import SystemConfiguration
         //タイトルが2行以上になる場合にtextViewの位置を変える
         self.textView.frame.origin.y = titleTextView.frame.height + titleTextView.frame.origin.y + 5
         
-//        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: scrollView.frame.height + self.textView.frame.height)
-//        var point = CGPoint(x: 0, y: scrollView.frame.origin.y + self.textView.frame.height)
-//        self.scrollView.setContentOffset(point, animated: false)
-        
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-
-    }
-    
-    // TextViewのテキストを選択できるかどうか falseだと選択できないおーー
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-//        if textSize.height >= 150 {
-//            return false
-//        }
-        return true
     }
     
     // TextViewのテキストにカーソル合わせたタイミングで呼ばれるおーー
@@ -187,15 +163,11 @@ import SystemConfiguration
         selectedAt = textView.selectedRange.location
         selectTextInImage.removeFromSuperview()
       
-        print("\(textView.selectedRange.location) ← ロケーション")
-        print("\(textView.selectedRange.length) ← レングス")
         let textRange: UITextRange? = self.textView.selectedTextRange//selectTextRange
         if textRange == nil {return}
-        //print(textRange)
+
         textSize = self.textView.caretRect(for: (textRange?.start)!)
-            print("\(textSize)" + " ⬅ カーソル位置")
             if textSize.height >= 95 {
-                print("背景挿入するよー")
                 //selectTextInImage = UIView()
                 selectTextInImage.frame = CGRect(x: textSize.origin.x - self.textInSelectImage.size.width + 1, y: textSize.origin.y - 2, width: self.textInSelectImage.size.width, height: textSize.size.height + 1)
                 selectTextInImage.layer.borderColor = UIColor.green.cgColor
@@ -203,25 +175,19 @@ import SystemConfiguration
                 selectTextInImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
                 textView.tintColor = UIColor.clear
                 self.textView.addSubview(selectTextInImage)
-                print("\(selectTextInImage.frame)" + " ⬅ 画像のサイズ確認")
                 
             } else {
-                print("No Selected")
+                
                 textView.tintColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
                 selectTextInImage.removeFromSuperview()
-//                self.textView.isEditable = true
-//                self.textView.isSelectable = true
             }
     }
     
     
     @objc func setVideoImage(notification: Notification) {
-        print("通知きたーーー")
-        print(self.images.count)
         if isVideo {
             for i in 0..<self.images.count {
                 self.videoImages[i].url = self.videoURLs![i]
-                print("\(self.videoImages[i])" + "3333333333333")
             }
             self.isVideo = false
         }
@@ -230,10 +196,9 @@ import SystemConfiguration
     }
     
     
-    // アルバムから画像取得するおーー
+    // アルバムから画像取得する
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
         self.selectedAssets = withTLPHAssets
-        print("\(self.selectedAssets.count)" + "枚の画像選択したおー")
         self.nowCursor = self.textView.selectedRange
         selectTextRange = self.textView.selectedTextRange
         
@@ -247,33 +212,24 @@ import SystemConfiguration
                         
                         if let urlAsset = avasset as? AVURLAsset {
                             url = urlAsset.url
-                             print(url)
                             self.videoURLs?.append(url!)
                             self.videoURLs?.reverse()
                         } else if let sandboxKeys = info?["PHImageFileSandboxExtensionTokenKey"] as? String, let path = sandboxKeys.components(separatedBy: ";").last {
                             url = URL(fileURLWithPath: path)
-                            print(url)
                             self.videoURLs?.append(url!)
                             self.videoURLs?.reverse()
                         }
                     }
                 
-//                    writeURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(img.originalFileName!)")
                
-            } else {
-
             }
         }
         
             for oneImage in self.images {
                 self.textInSelectImage = self.resizeUIImageByWidth(image: oneImage, width: Double(self.view.frame.width - 20))
-                print("\(self.textInSelectImage) Image情報")
-                print("\(self.textView.selectedRange)" + " ⬅ カーソル位置だおーー")
                 
                 self.insertViewToImage(selectRange: nowCursor, selectTextRange: selectTextRange, url: nil)
 
-                // 入力中のところから装飾した場合に使用。これの処理以降に装飾される
-                //self.textView.typingAttributes = [NSAttributedStringKey.font.rawValue: UIFont.systemFont(ofSize: 14)]
             }
         
         if self.videoURLs! != [] {
@@ -283,10 +239,9 @@ import SystemConfiguration
             
         }
         
-        
         self.images.removeAll()
         self.textView.becomeFirstResponder()
-        //self.isVideo = false
+        
       
         // allowLossyConversion 変換中に必要に応じて文字を削除または置換できるかどうかを示します。
 //        let encoded = sumHtml.data(using: String.Encoding.utf8, allowLossyConversion: true)!
@@ -440,13 +395,9 @@ import SystemConfiguration
         orgOptionalTextField.addTarget(self, action: #selector(self.previewText) , for: UIControlEvents.editingChanged)
         orgTextField.addTarget(self, action: #selector(self.previewText), for: UIControlEvents.editingChanged)
         orgPreviewTextField = makeOrgTextField(placeholder: "", y: orgOptionalTextField.frame.height + 95)
-        let cancelButton = makeOrgButton(x: orgBackView.center.x / 2, title: "キャンセル", action: #selector(self.cancelOrg))
+        _ = makeOrgButton(x: orgBackView.center.x / 2, title: "キャンセル", action: #selector(self.cancelOrg))
         _ = makeOrgButton(x: orgBackView.frame.size.width / 2*1.5, title: "入力", action: #selector(self.setOrg))
         orgPreviewTextField.isEnabled = false
-        
-//        checkboxLabel = makeOrgLabel(x: orgBackView.frame.origin.x + 50, y: cancelButton.frame.origin.y - 50)
-//
-//        makeOrgCheckbox(x: orgBackView.frame.origin.x + 21, y: cancelButton.frame.origin.y - 38)
         
         if (UIPasteboard.general.string != nil && ((UIPasteboard.general.string?.range(of: "http")) != nil)) {
             orgTextField.text = UIPasteboard.general.string
@@ -466,8 +417,7 @@ import SystemConfiguration
     @objc func previewText() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             if !(self.orgOptionalTextField.text?.isEmpty)! && !(self.orgTextField.text?.isEmpty)! {
-                print("任意テキスト出す〜")
-                
+            
                 self.orgPreviewTextField.textColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
                 let stringAttributes: [NSAttributedStringKey: Any] = [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue, .underlineColor: UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)]
                 let previewString = NSAttributedString(string: self.orgOptionalTextField.text!, attributes: stringAttributes)
@@ -588,75 +538,10 @@ import SystemConfiguration
             return
         }
         
-        if checkButton.on {
-            embeddedView = URLEmbeddedView()
-            embeddedView.tag = 1
-            embeddedView.loadURL(self.orgTextField.text!) { error in
-                print(error)
-            }
-            
-            DispatchQueue.main.async {
-                if self.embeddedView.isImageChack == false {
-                    print("エラー画像ないｓだよ！！")
-                } else {
-                    print("休憩")
-                }
-            
-            }
-            
-            
-//            OGImageProvider.shared.loadImage(urlString: self.orgTextField.text!) { image, error in
-//               print(image)
-//                if image != nil {
-//                    print("画像あるよー")
-//                    self.embeddedView.loadURL(self.orgTextField.text!)
-//                    self.embeddedView.frame.size = CGSize(width: self.view.frame.width / 1.2, height: 100)
-//                    self.embeddedView.center.x = self.view.center.x
-//                    self.embeddedView.center.y = self.textView.frame.height + 10
-//
-//                    // 0.8秒後に実行したい処理
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-//                        self.textInSelectImage = self.embeddedView.viewToImage(view: self.embeddedView)
-//                        self.selectTextRange = self.textView.selectedTextRange
-//                        self.insertViewToImage(selectRange: self.textView.selectedRange, selectTextRange: self.selectTextRange!)
-//                    }
-//
-//                } else {
-//                    print(error)
-//                    print("生成するよーー")
-//
-//                    self.embeddedView = nil
-//                }
-//
-//            }
-            
-            
-            embeddedView.frame.size = CGSize(width: self.view.frame.width / 1.2, height: 100)
-            embeddedView.center.x = self.view.center.x
-            embeddedView.center.y = self.textView.frame.height - 40
-            
-            // 0.8秒後に実行したい処理
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                self.textInSelectImage = self.embeddedView.viewToImage(view: self.embeddedView)
-                self.selectTextRange = self.textView.selectedTextRange
-                self.insertViewToImage(selectRange: self.textView.selectedRange, selectTextRange: self.selectTextRange!, url: nil)
-            }
-           
-            
-            checkButton.setOn(false, animated: false)
-        //}
-           // OGP選択時にWebViewを開く
-           // textView.addSubview(embeddedView)
-//            embeddedView.didTapHandler = { [weak self] embeddedView, URL in
-//                guard let URL = URL else { return }
-//                print("WebView開くよー")
-//                //self?.present(SFSafariViewController(url: URL), animated: true, completion: nil)
-//                UIApplication.shared.open(URL, options: [:], completionHandler: nil)
-//            }
-        }
+   
     else {
             if let range = self.textView.selectedTextRange {
-                print("挿入するぞーーーーーー")
+               
                 self.textView.replace(range, withText: " " + self.orgPreviewTextField.text! + " ")
                 self.textView.addAttributes(orgPreviewTextField.text!, values: ["URL": self.orgTextField.text!], attributes: [.underline(UnderlineStyle.single), .underlineColor(UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)), .textColor(UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1))])
             }
@@ -664,10 +549,10 @@ import SystemConfiguration
         
         if !(self.orgOptionalTextField.text?.isEmpty)! && !(self.orgTextField.text?.isEmpty)! {
             self.urlText.append((url: self.orgTextField.text!, urlText: self.orgOptionalTextField.text!))
-            print("\(self.orgOptionalTextField.text!)" + "サブテキストありーーー")
+        
         } else if !(self.orgTextField.text?.isEmpty)! && (self.orgOptionalTextField.text?.isEmpty)! {
             self.urlText.append((url: self.orgTextField.text!, urlText: nil))
-            print("\(self.orgTextField.text!)" + "urlのみーー")
+           
         }
         
         textView.resignFirstResponder()
@@ -678,23 +563,7 @@ import SystemConfiguration
     // テキストView内のリンクをタップした際にWebに遷移させる
     func regeributedTextView(_ textView: RegeributedTextView, didSelect text: String, values: [String : Any]) {
         self.textView.isScrollEnabled = false
-        //self.textView.layoutManager.allowsNonContiguousLayout = false
-//        let selectedText = text
-//
-//        if (textView.text.range(of: selectedText) != nil) {
-//            self.textView.addAttribute(text, attribute: .backgroundColor(UIColor(red: 0, green: 20, blue: 255, alpha: 0.4)))
-//
-//             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//                self.textView.addAttribute(text, attribute: .backgroundColor(.clear))
-//            }
-//        }
-        
-        
-        print("リンク or メンションをタップしたよー" + "\(self.textView.selectedRange)")
-        
-//        if let url = values["URL"] as? String {
-//            UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
-//        }
+ 
     }
     
     func insertViewToImage(selectRange: NSRange, selectTextRange: UITextRange, url: URL?) {
@@ -710,22 +579,17 @@ import SystemConfiguration
         let startPos = self.textView.offset(from: beginning, to: startPosition)
         let endPos = self.textView.offset(from: startPosition, to: ending)
         let oriRange = NSMakeRange(0, startPos)
-        let oriRangeRight = NSMakeRange(selectRange.location, endPos)//endPos)
+        let oriRangeRight = NSMakeRange(selectRange.location, endPos)
        
         if self.isVideo {
-            print("ビデオ保存するよー")
-            print(self.images.count)
-         
-            self.videoImages.append((oriRangeRight, self.textInSelectImage, nil))///oriRangeRight
-        } else {
-            print("ビデオ保存できてないよー")
+            self.videoImages.append((oriRangeRight, self.textInSelectImage, nil))
         }
         
-        print("\(startPos)" + "startPosだよー")
-        print("\(endPos)" + "endPosだよー")
-        print("\(oriRangeRight)" + "oriRangeRightだよー")
-        print("\(oriRange)" + "oriRangeだよー")
-        print(selectRange)
+        print("\(startPos)" + "startPos")
+        print("\(endPos)" + "endPos")
+        print("\(oriRangeRight)" + "oriRangeRight")
+        print("\(oriRange)" + "oriRange")
+      
         
         let str = NSMutableAttributedString()
         
@@ -733,36 +597,28 @@ import SystemConfiguration
             str.append(self.textView.attributedText)
             str.append(lineSpace)
             str.append(strImage)
-            print("\(self.textView.text.count) ← テキストなし1度目テキストの数")
+           
         } else {
             str.append(self.textView.attributedText.attributedSubstring(from: oriRange))
             str.append(lineSpace)
             str.append(strImage)
             str.append(lineSpace)
-//            if selectRange.location == self.textView.text.count {
-//                let oriRangeRight = NSMakeRange(selectRange.location, 0)//endPos)
-//            }
             str.append(self.textView.attributedText.attributedSubstring(from: oriRangeRight))
-            //print(self.textView.attributedText.attributedSubstring(from: oriRangeRight))
-            print("\(self.textView.text.count) ← テキストの数")
+           
         }
         self.textView.attributedText = str
-        self.nowCursor = oriRangeRight//self.textView.selectedRange
-        //self.selectTextRange = self.textView.selectedTextRange
-        print("\(self.nowCursor) ← Image挿入後カーソル位置更新")
-        print("\(self.selectTextRange) ← Image挿入後カーソル位置更新2")
-        
+        self.nowCursor = oriRangeRight
+     
     }
     
     // 下書き保存 & 自動保存のときに呼び出す
-    func convertToHtml() -> [UIImage] {
+    func convertToHtml(){
         self.attachments = [(range: NSRange, image: UIImage)]()
         let range = NSRange(location: 0, length: textView.attributedText.length)
         self.textView.attributedText.enumerateAttribute(.attachment, in: range, options: [], using: { (value, range, stop) in
             if let attachment = value as? NSTextAttachment {
                 if let image = attachment.image {
                     attachments.append((range, image))
-                    print("\(range)" + "画像位置")
                 } else if let image = attachment.image(forBounds: attachment.bounds,
                                                        textContainer: nil,
                                                        characterIndex: range.location) {
@@ -784,11 +640,9 @@ import SystemConfiguration
             let htmlData = try! attT.data(from: startRange, documentAttributes: documentAttributes)
             let html = String(data: htmlData, encoding: .utf8)
             textToHtml(getRange: startRange)
-            print(attachments.count)
             
             
             (j ..< attachments.count).forEach({ (nil) in
-                print("画像表示")
                 num = 0
                 isFirst = true
                 (num ..< self.videoImages.count).forEach({ (nil) in
@@ -798,52 +652,43 @@ import SystemConfiguration
                     print(i)
                     
                     if self.videoImages.count > 1 && i != 0 {
-                        print("1以上かつnumが0じゃない")
-                            if attachments[i].range.location == self.videoImages[num].range.location + setNum {
+                         if attachments[i].range.location == self.videoImages[num].range.location + setNum {
                                 let nextImageRange = NSMakeRange(attachments[i].range.location + 1, 0)//attachments[j].range.location - attachments[i].range.location
                                 let imageRange = NSMakeRange(attachments[i].range.location, 1)
                                 print(nextImageRange)
                                 videoToHtml(getRange: imageRange, i: i)
                                 textToHtml(getRange: nextImageRange)
-                                print("カーソル位置が一致")
                                 isCheckVideo = true
                                 i += 1
                             } else {
-                                print("カーソル位置が一致していない。。")
                                 isCheckVideo = false
                             }
                             num += 1
                         
                         // TextViewの一番上にある画像が動画かどうかチェック
                     } else if self.videoImages.count > 1 && i == 0 && isFirst{
-                        print("1以上かつnumが0のとき")
-                        print(i)
+                       
                         if attachments[i].range.location == self.videoImages[num].range.location + setNum {
                             let nextImageRange = NSMakeRange(attachments[i].range.location + 1, attachments[j].range.location - attachments[i].range.location)
                             let imageRange = NSMakeRange(attachments[i].range.location, 1)
                             videoToHtml(getRange: imageRange, i: i)
                             textToHtml(getRange: nextImageRange)
-                            print("カーソル位置が一致")
                             isCheckVideo = true
                             i += 1
                         } else {
-                            print("カーソル位置が一致していない。。")
                             isCheckVideo = false
                         }
                         num += 1
                         isFirst = false
                     } else if self.videoImages.count > 1 && i == 0 {
-                        print("1以上かつnumが0じゃない2")
                         if attachments[i].range.location == self.videoImages[num].range.location + setNum {
                             let nextImageRange = NSMakeRange(attachments[i].range.location + 1, attachments[j].range.location - attachments[i].range.location)
                             let imageRange = NSMakeRange(attachments[i].range.location, 1)
                             videoToHtml(getRange: imageRange, i: i)
                             textToHtml(getRange: nextImageRange)
-                            print("カーソル位置が一致2")
                             isCheckVideo = true
                             i += 1
                         } else {
-                            print("カーソル位置が一致していない。。222")
                             isCheckVideo = false
                         }
                         num += 1
@@ -852,9 +697,7 @@ import SystemConfiguration
                 })
                 
                 // iに対して、numをvideoImage.count分回して、全てチェックしたら以下を実行する。
-                print("Imageチェック")
                 if !isCheckVideo {
-                    print("Imageのみだよーーー")
                     let nextImageRange = NSMakeRange(attachments[i].range.location+1 , attachments[j].range.location - attachments[i].range.location )
                     let imageRange = NSMakeRange(attachments[i].range.location, 1)
                     imageToHtml(getRange: imageRange, i: i)
@@ -862,7 +705,6 @@ import SystemConfiguration
                      i += 1
                      j += 1
                 }
-                
                 
             })
             
@@ -919,8 +761,6 @@ import SystemConfiguration
         // リンクをHTML化
         if self.urlText.count > 0 {
             for i in self.urlText {
-                print(i)
-                
                 if sumHtml.contains(i.url) && i.urlText == nil {
                     sumHtml = sumHtml.replacingOccurrences(of: i.url, with: "<a href=\"\(i.url)\">\(i.url)</a>")
                     sumHtml = sumHtml.replacingOccurrences(of: "<a href=\"<a href=\"\(i.url)\">\(i.url)</a>\"><a href=\"\(i.url)\">\(i.url)</a></a>", with: "<a href=\"\(i.url)\">\(i.url)</a>")
@@ -945,59 +785,42 @@ import SystemConfiguration
         if self.titleTextView.text != "" {
             sumHtml = "<html><h1>\(self.titleTextView.text!)</h1>" + sumHtml + "</html>"
         } else {
-            sumHtml = "<h1>NO TITLE</h1>\n\n" + sumHtml
+            sumHtml = "<html><h1>NO TITLE</h1>\n\n" + sumHtml + "</html>"
         }
         
         do {
             let test = try HTMLDocument(string: sumHtml, encoding: .utf8)
             self.titleText = test.title
             
-        } catch {
-            print("エラーよー")
+        } catch let error {
+           print(error)
         }
-        
-       print(sumHtml)
         
         
         // Font、FontSizeがぶっ壊れてしまうバグを解消
         convertAttributeText = sumHtml.convertHtml(withFont: UIFont(name: "Helvetica", size: 16), align: .left)
-        print(convertAttributeText)
-        
+    
         self.videoURLs?.removeAll()
-        return self.testImages
+        
     }
     
     
     // テキストが入力されるたびに何かしたいとき
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        print(range)
-        print("\(text) ← 追加テキスト")
-        
         let textAsNSString = self.textView.text as! NSString
         // rangeの範囲をtestに置換する
         let replace = textAsNSString.replacingCharacters(in: range, with: text)
         let boldString = replace.range(of: "\n")
-        //replace.rangeToNSRange(range: boldString!)
-        print("\(replace) ← 追加されているテキスト")
         
         if boldString != nil {
             let boldRange = NSRange(boldString!, in: replace)
-            
-            print("\(boldRange.location) + \(replace.count) ← 最初の行を取得！！")
-            print(boldString)
+            print(replace[..<replace.index(replace.startIndex, offsetBy: boldRange.location)])
             if boldRange.location <= range.location {
-            
-                let attText = NSMutableAttributedString(string: replace)
-                attText.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 30), range: NSMakeRange(0, replace.count))
-                
-                // self.textView.attributedText = attText
-                
                 self.textView.typingAttributes = [NSAttributedStringKey.font.rawValue : UIFont.systemFont(ofSize: 16.0)]
                 
-                //NSAttributedStringKey.font.rawValue: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body),
             } else {
                 self.textView.typingAttributes = [NSAttributedStringKey.font.rawValue : UIFont.boldSystemFont(ofSize: 30)]
+                self.titleText = replace
             }
         }
         
@@ -1005,15 +828,13 @@ import SystemConfiguration
     }
  
     func textToHtml(getRange: NSRange) {
-        print("\(getRange) + テキストぶち込む位置")
         let documentAttributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
         let attT = textView.attributedText!
         let htmlData = try! attT.data(from: getRange, documentAttributes: documentAttributes)
         let html = String(data: htmlData, encoding: .utf8)
         do {
             let doc = try HTMLDocument(string: html!, encoding: .utf8)
-           // print(doc.body?.rawXML)
-             self.htmls.append((doc.body?.rawXML)!)
+            self.htmls.append((doc.body?.rawXML)!)
         } catch let error {
             print(error)
         }
@@ -1023,7 +844,7 @@ import SystemConfiguration
         let documentAttributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
         let attT = textView.attributedText!
         let htmlData = try! attT.data(from: getRange, documentAttributes: documentAttributes)
-        print("だめだよ！")
+       
         // 画像だけのHTML全体を取得
         let html = String(data: htmlData, encoding: .utf8)
         do {
@@ -1043,7 +864,6 @@ import SystemConfiguration
         let htmlData = try! attT.data(from: getRange, documentAttributes: documentAttributes)
         // 画像だけのHTML全体を取得
         let html = String(data: htmlData, encoding: .utf8)
-        print("\(html)" + "動画のHTMLだよー")
         do {
             let doc = try HTMLDocument(string: html!, encoding: .utf8)
             let changeString = "<img src=\"file:///Attachment.png\" alt=\"Attachment.png\">"
@@ -1145,7 +965,7 @@ import SystemConfiguration
         self.keyboardFrame = keyboardFrame
             if i == 0 {
                 if ViewController.isIphoneX {
-                    print("iPhoneXだ！！")
+                    print("iPhoneX")
                     let y = (titleTextView.frame.height + titleTextView.frame.origin.y) + (self.keyboardFrame.size.height + toolBar.frame.height)
                     let insertY = (self.view.bounds.height + 10) - y
                     textView.frame = CGRect(x: 0, y: self.titleTextView.frame.origin.y + self.titleTextView.frame.height + 30, width: self.view.frame.width, height: insertY)
@@ -1156,7 +976,7 @@ import SystemConfiguration
                     self.textView.PlaceHolderColor = UIColor.darkGray
                     i += 1
                 } else {
-                    print("iPhoneX以外だよーーー")
+                    print("iPhoneX以外")
                     let y = (titleTextView.frame.height + titleTextView.frame.origin.y) + (self.keyboardFrame.size.height + toolBar.frame.height)
                     let insertY = (self.view.bounds.height + 38) - y
                     textView.frame = CGRect(x: 0, y: self.titleTextView.frame.origin.y + self.titleTextView.frame.height + 5, width: self.view.frame.width, height: insertY)
