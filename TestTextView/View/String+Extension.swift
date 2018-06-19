@@ -48,15 +48,4 @@ extension String {
         return NSAttributedString(string: self)
     }
     
-    func rangeToNSRange(range : Range<String.Index>) -> NSRange? {
-        let utf16view = self.utf16
-        guard
-            let from = String.UTF16View.Index(range.lowerBound, within: utf16view),
-            let to = String.UTF16View.Index(range.upperBound, within: utf16view)
-            else { return nil }
-        let utf16Offset = utf16view.startIndex.encodedOffset
-        let toOffset = to.encodedOffset
-        let fromOffset = from.encodedOffset
-        return NSMakeRange(fromOffset - utf16Offset, toOffset - fromOffset)
-    }
 }

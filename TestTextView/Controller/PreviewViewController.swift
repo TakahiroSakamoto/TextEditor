@@ -7,18 +7,13 @@
 //
 
 import UIKit
-import RegeributedTextView
-import Alamofire
-import SwiftyJSON
 import Fuzi
 import WebKit
 
 class PreviewViewController: UIViewController {
     var convertAttributeText: NSAttributedString!
-    var titleText: String!
     var testHTML: String!
-
-    @IBOutlet weak var textView: RegeributedTextView!
+    var titleText: String!
     let indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
@@ -27,37 +22,9 @@ class PreviewViewController: UIViewController {
         self.view.addSubview(wkWebView)
         testHTML = testHTML.replacingOccurrences(of: "<html>", with: "<html><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><style> body { font-size: 130%; font-family: Helvetica} </style>")
         
-        print("\(self.testHTML!) ← Previewで表示させるHTML")
-        
-       
-        
-//        self.showIndicator()
-//        Alamofire.request("http", method: .get).responseString { (responce) in
-//            guard let object = responce.result.value else {
-//                print("取得できなかった")
-//                return
-//            }
-//
-//            do {
-//                let stringHtml = try HTMLDocument(string: object, encoding: .utf8)
-//                self.titleText = stringHtml.title
-//            } catch {
-//                print("エラーよーー")
-//            }
-//
-//            self.indicator.stopAnimating()
-//            self.convertAttributeText = object.convertHtml(withFont: UIFont(name: "Helvetica", size: 16), align: .left)
-//        }
-        
-       
         wkWebView.loadHTMLString(testHTML, baseURL: nil)
-      
-        textView.dataDetectorTypes = .link
-        textView.placeHolder = ""
     }
     
-
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     

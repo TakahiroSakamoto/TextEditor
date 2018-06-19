@@ -49,21 +49,9 @@
                     <view key="view" contentMode="scaleToFill" id="BL6-px-r1F">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisi" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mL1-x3-gmm" customClass="RegeributedTextView" customModule="RegeributedTextView">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="X7W-TP-viY"/>
                     </view>
-                    <connections>
-                        <outlet property="textView" destination="mL1-x3-gmm" id="3cT-fv-1mC"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6cW-OQ-MgF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

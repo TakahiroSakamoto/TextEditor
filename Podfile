@@ -10,7 +10,6 @@ target 'TestTextView' do
   pod 'TLPhotoPicker' , '1.5.6'
   pod 'SearchTextField'
   pod 'RegeributedTextView' , '~> 0.2.1'
-  pod 'BEMCheckBox'
   pod 'Alamofire', '~> 4.5'
   pod 'SwiftyJSON'
   pod 'Fuzi', '~> 1.0.0'
