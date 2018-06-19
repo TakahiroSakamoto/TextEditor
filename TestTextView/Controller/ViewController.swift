@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import URLEmbeddedView
 import SafariServices
 import AVKit
 import AVFoundation
@@ -15,13 +14,12 @@ import Photos
 import TLPhotoPicker
 import SearchTextField
 import RegeributedTextView
-import BEMCheckBox
 import Fuzi
 import SystemConfiguration
 
 
 
- class ViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, TLPhotosPickerViewControllerDelegate, RegeributedTextViewDelegate, BEMCheckBoxDelegate, UITextFieldDelegate {
+ class ViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, TLPhotosPickerViewControllerDelegate, RegeributedTextViewDelegate, UITextFieldDelegate {
 
     var textView: RegeributedTextView!
     
@@ -36,8 +34,7 @@ import SystemConfiguration
     var orgTextField: UITextField!
     var orgOptionalTextField: UITextField!
     var orgPreviewTextField: UITextField!
-    var embeddedView: URLEmbeddedView!
-    
+  
     // ポップアップのバックに表示するView
     let backView = UIView()
     let orgBackView = UIView()
@@ -70,9 +67,6 @@ import SystemConfiguration
     // 複数画像アップロードにカーソルを位置を知っておくため
     var nowCursor: NSRange!
     var selectTextRange: UITextRange!
-    
-    var checkButton: BEMCheckBox!
-    var checkboxLabel: UILabel!
     
     let toolBar = UIToolbar()
     
@@ -129,11 +123,9 @@ import SystemConfiguration
         titleTextView.font = UIFont.systemFont(ofSize: 28)
         titleTextView.isScrollEnabled = false
         
-        
         self.textView.becomeFirstResponder()
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillBeShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         textView.font = UIFont.systemFont(ofSize: 16)
-        print(textView.frame.maxY)
         self.view.addSubview(textView)
         
     }
@@ -183,7 +175,6 @@ import SystemConfiguration
             }
     }
     
-    
     @objc func setVideoImage(notification: Notification) {
         if isVideo {
             for i in 0..<self.images.count {
@@ -191,7 +182,6 @@ import SystemConfiguration
             }
             self.isVideo = false
         }
-        
         self.images.removeAll()
     }
     
@@ -220,8 +210,6 @@ import SystemConfiguration
                             self.videoURLs?.reverse()
                         }
                     }
-                
-               
             }
         }
         
@@ -235,22 +223,10 @@ import SystemConfiguration
         if self.videoURLs! != [] {
             NotificationCenter.default.addObserver(self, selector: #selector(self.setVideoImage), name: NSNotification.Name(rawValue: "setVideoImage"), object: nil)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setVideoImage"), object: nil)
-        } else {
-            
         }
         
         self.images.removeAll()
         self.textView.becomeFirstResponder()
-        
-      
-        // allowLossyConversion 変換中に必要に応じて文字を削除または置換できるかどうかを示します。
-//        let encoded = sumHtml.data(using: String.Encoding.utf8, allowLossyConversion: true)!
-//        let attributedOptions : [NSAttributedString.DocumentReadingOptionKey : Any] = [
-//            .documentType : NSAttributedString.DocumentType.html,
-//            ]
-//        let attributedTxt = try! NSAttributedString(data: encoded, options: attributedOptions, documentAttributes: nil)
-//        //textView.attributedText = attributedTxt
-       // textView.attributedText = convertAttributeText
         
     }
     
@@ -269,20 +245,20 @@ import SystemConfiguration
         
         let ogpButton = UIBarButtonItem(image: UIImage(named: "link")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.ogpMode))
         
-        let spaceButton3 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-        spaceButton3.width = 120
+        let spaceHighButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        spaceHighButton.width = 120
         
         let mensionButton = UIBarButtonItem(image: UIImage(named: "mention")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.mensionMode))
         
-        let spaceButton4 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-        spaceButton4.width = 10
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        spaceButton.width = 10
 
-        let spaceButton5 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-        spaceButton5.width = 13
+        let iconSpaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        iconSpaceButton.width = 13
         
         let previewButton = UIBarButtonItem(image: UIImage(named: "eye")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.previewMode))
         
-        toolBar.setItems([cameraButton, spaceButton5, movieButton, spaceButton5, ogpButton, spaceButton4, mensionButton, spaceButton4, spaceButton3, previewButton], animated: false)
+        toolBar.setItems([cameraButton, iconSpaceButton, movieButton, iconSpaceButton, ogpButton, spaceButton, mensionButton, spaceButton, spaceHighButton, previewButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         
@@ -430,26 +406,7 @@ import SystemConfiguration
             }
         }
     }
-  
-    // OGP埋め込みのラベルとチェックボックス V1では一旦なし
-//    func makeOrgLabel(x: CGFloat, y: CGFloat) -> UILabel {
-//        let label = UILabel()
-//        label.frame = CGRect(x: x, y: y, width: 100, height: 45)
-//        label.text = "埋め込み"
-//        label.textColor =
-//            UIColor.darkGray
-//        orgBackView.addSubview(label)
-//        return label
-//    }
-//
-//    func makeOrgCheckbox(x: CGFloat, y: CGFloat) {
-//        checkButton = BEMCheckBox.init(frame: CGRect(x: x, y: y, width: 20, height: 20))
-//        checkButton.delegate = self
-//        checkButton.boxType = .square
-//        checkButton.onFillColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
-//        checkButton.onCheckColor = UIColor.white
-//        orgBackView.addSubview(checkButton)
-//    }
+
     
     func makeOrgButton(x: CGFloat, title: String, action: Selector) -> UIButton {
         let button = UIButton()
@@ -518,15 +475,6 @@ import SystemConfiguration
         return view
     }
     
-    // 埋め込みのチェックボックスをタップした際に呼ばれる
-    func didTap(_ checkBox: BEMCheckBox) {
-        if checkBox.on {
-            self.checkboxLabel.textColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
-        } else {
-            self.checkboxLabel.textColor = UIColor.black
-        }
-    }
-    
     
     @objc func setOrg() {
         if (orgTextField.text?.isEmpty)! {
@@ -536,12 +484,8 @@ import SystemConfiguration
             present(alert, animated: true, completion: nil)
             textView.resignFirstResponder()
             return
-        }
-        
-   
-    else {
+        } else {
             if let range = self.textView.selectedTextRange {
-               
                 self.textView.replace(range, withText: " " + self.orgPreviewTextField.text! + " ")
                 self.textView.addAttributes(orgPreviewTextField.text!, values: ["URL": self.orgTextField.text!], attributes: [.underline(UnderlineStyle.single), .underlineColor(UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)), .textColor(UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1))])
             }
@@ -630,132 +574,30 @@ import SystemConfiguration
         if attachments.count > 0 {
             var i = 0
             var j = 1
-            var num = 0
-            let setNum = 3
-            var isFirst = true
-            var isCheckVideo = false
             let attT = textView.attributedText!
             let documentAttributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
             let startRange = NSMakeRange(0, attachments[0].range.location)
             let htmlData = try! attT.data(from: startRange, documentAttributes: documentAttributes)
             let html = String(data: htmlData, encoding: .utf8)
             textToHtml(getRange: startRange)
-            
-            
             (j ..< attachments.count).forEach({ (nil) in
-                num = 0
-                isFirst = true
-                (num ..< self.videoImages.count).forEach({ (nil) in
-                    print("\(attachments[i].range) ← attachmentの位置")
-                    print("\(self.videoImages[num].range) ← videoの位置")
-                    print("num：\(num)")
-                    print(i)
-                    
-                    if self.videoImages.count > 1 && i != 0 {
-                         if attachments[i].range.location == self.videoImages[num].range.location + setNum {
-                                let nextImageRange = NSMakeRange(attachments[i].range.location + 1, 0)//attachments[j].range.location - attachments[i].range.location
-                                let imageRange = NSMakeRange(attachments[i].range.location, 1)
-                                print(nextImageRange)
-                                videoToHtml(getRange: imageRange, i: i)
-                                textToHtml(getRange: nextImageRange)
-                                isCheckVideo = true
-                                i += 1
-                            } else {
-                                isCheckVideo = false
-                            }
-                            num += 1
-                        
-                        // TextViewの一番上にある画像が動画かどうかチェック
-                    } else if self.videoImages.count > 1 && i == 0 && isFirst{
-                       
-                        if attachments[i].range.location == self.videoImages[num].range.location + setNum {
-                            let nextImageRange = NSMakeRange(attachments[i].range.location + 1, attachments[j].range.location - attachments[i].range.location)
-                            let imageRange = NSMakeRange(attachments[i].range.location, 1)
-                            videoToHtml(getRange: imageRange, i: i)
-                            textToHtml(getRange: nextImageRange)
-                            isCheckVideo = true
-                            i += 1
-                        } else {
-                            isCheckVideo = false
-                        }
-                        num += 1
-                        isFirst = false
-                    } else if self.videoImages.count > 1 && i == 0 {
-                        if attachments[i].range.location == self.videoImages[num].range.location + setNum {
-                            let nextImageRange = NSMakeRange(attachments[i].range.location + 1, attachments[j].range.location - attachments[i].range.location)
-                            let imageRange = NSMakeRange(attachments[i].range.location, 1)
-                            videoToHtml(getRange: imageRange, i: i)
-                            textToHtml(getRange: nextImageRange)
-                            isCheckVideo = true
-                            i += 1
-                        } else {
-                            isCheckVideo = false
-                        }
-                        num += 1
-                    }
-                    
-                })
+                let nextImageRange = NSMakeRange(attachments[i].range.location + 1, attachments[j].range.location - attachments[i].range.location - 1)
+                let imageRange = NSMakeRange(attachments[i].range.location, 1)
+                imageToHtml(getRange: imageRange, i: i)
+                textToHtml(getRange: nextImageRange)
                 
-                // iに対して、numをvideoImage.count分回して、全てチェックしたら以下を実行する。
-                if !isCheckVideo {
-                    let nextImageRange = NSMakeRange(attachments[i].range.location+1 , attachments[j].range.location - attachments[i].range.location )
-                    let imageRange = NSMakeRange(attachments[i].range.location, 1)
-                    imageToHtml(getRange: imageRange, i: i)
-                    textToHtml(getRange: nextImageRange)
-                     i += 1
-                     j += 1
-                }
-                
+                i += 1
+                j += 1
             })
+            imageToHtml(getRange: NSMakeRange(attachments[i].range.location, 1), i: i)
+            textToHtml(getRange: NSMakeRange(attachments[j-1].range.location + 1, self.textView.text.count - attachments[j-1].range.location - 1))
             
-//            // 最後のいっぱつーー
-//            if self.videoImages.count == 0 {
-//                let nextImageRange = NSMakeRange(attachments[i].range.location , attachments[j].range.location - attachments[i].range.location )
-//                let imageRange = NSMakeRange(attachments[i].range.location, 1)
-//                imageToHtml(getRange: imageRange, i: i)
-//                //textToHtml(getRange: nextImageRange)
-//                textToHtml(getRange: NSMakeRange(attachments[j-1].range.location + 1, self.textView.text.count - attachments[j-1].range.location - 1))
-//                print("ここにはこない")
-//
-//            } else if self.videoImages.count > 1 {
-//                print("ここにくるーー")
-//                print(i)
-//                //                    let nextImageRange = NSMakeRange(attachments[i + 1].range.location + 1, attachments[j].range.location - attachments[i].range.location - 1)
-//                //                    let imageRange = NSMakeRange(attachments[i].range.location, 1)
-//                if attachments[i].range.location == self.videoImages[num].range.location + setNum {
-//                    videoToHtml(getRange: NSMakeRange(attachments[i].range.location, 1), i: i)
-//                    textToHtml(getRange: NSMakeRange(attachments[j-1].range.location + 1, self.textView.text.count - attachments[j-1].range.location - 1))
-//                }
-//            }
-          
-            
-           //  画像がひとつだけ、プラス、最後の画像のところがvideoかどうかチェック
-//            if isCheckInsertVideo  {
-//                videoToHtml(getRange: NSMakeRange(attachments[i].range.location, 1), i: i)
-//
-//                textToHtml(getRange: NSMakeRange(attachments[j-1].range.location + 1, self.textView.text.count - attachments[j-1].range.location - 1))
-//                print("最後の①枚Video")
-//
-//            } //else {
-//                imageToHtml(getRange: NSMakeRange(attachments[i].range.location, 1), i: i)
-//
-//                textToHtml(getRange: NSMakeRange(attachments[j-1].range.location + 1, self.textView.text.count - attachments[j-1].range.location - 1))
-//                print("最後の①枚Image")
-//            }
-//            // 画像がひとつだけなら以下を実行
-//            imageToHtml(getRange: NSMakeRange(attachments[i-1].range.location, 1), i: i-1)
-//
-//            textToHtml(getRange: NSMakeRange(attachments[j-1].range.location + 1, self.textView.text.count - attachments[j-1].range.location - 1))
-
         } else {
             let oriRange = NSMakeRange(0, self.textView.text.count)
-//            let oriRangeRight = NSMakeRange(attachments[0].range.location, self.textView.text.count - attachments[0].range.location)
             textToHtml(getRange: oriRange)
-           // textToHtml(getRange: oriRangeRight)
         }
         
         isCheckInsertVideo = false
-        
         sumHtml = self.htmls.joined()
         
         // リンクをHTML化
@@ -791,11 +633,9 @@ import SystemConfiguration
         do {
             let test = try HTMLDocument(string: sumHtml, encoding: .utf8)
             self.titleText = test.title
-            
         } catch let error {
            print(error)
         }
-        
         
         // Font、FontSizeがぶっ壊れてしまうバグを解消
         convertAttributeText = sumHtml.convertHtml(withFont: UIFont(name: "Helvetica", size: 16), align: .left)
@@ -814,7 +654,6 @@ import SystemConfiguration
         
         if boldString != nil {
             let boldRange = NSRange(boldString!, in: replace)
-            print(replace[..<replace.index(replace.startIndex, offsetBy: boldRange.location)])
             if boldRange.location <= range.location {
                 self.textView.typingAttributes = [NSAttributedStringKey.font.rawValue : UIFont.systemFont(ofSize: 16.0)]
                 
@@ -858,7 +697,6 @@ import SystemConfiguration
     }
     
     func videoToHtml(getRange: NSRange, i: Int) {
-        
         let documentAttributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
         let attT = textView.attributedText!
         let htmlData = try! attT.data(from: getRange, documentAttributes: documentAttributes)
@@ -869,8 +707,6 @@ import SystemConfiguration
             let changeString = "<img src=\"file:///Attachment.png\" alt=\"Attachment.png\">"
             
             self.htmls.append((doc.body?.rawXML.replacingOccurrences(of: changeString, with: "<video controls width=\"\(self.view.frame.width-5)\" height=\"450\"><source src=\"\(self.videoURLs![i].absoluteString)\"></video>"))!)
-            print(doc.body?.rawXML.replacingOccurrences(of: changeString, with: "<video controls width=\"\(self.view.frame.width-5)\" height=\"450\"><source src=\"\(self.videoURLs![i].absoluteString)\"></video>"))
-           
         } catch let error {
             print(error)
         }
@@ -893,15 +729,11 @@ import SystemConfiguration
     
     @objc func textFieldEditingChanged() {
         UserManager.sharedInstance.users = []
-//        UserManager.sharedInstance.fetchUsers(keyword: ViewController.searchField.text!)
-       
     }
     
     func setUpSampleSearchTextField() {
         ViewController.searchField.delegate = self
         ViewController.searchField.addTarget(self, action: #selector(self.textFieldEditingChanged), for: .editingChanged)
-
-        print("\(UserManager.sharedInstance.users.count)" + "メンションユーザー")
         
         ViewController.searchField.theme.font = UIFont.systemFont(ofSize: 16)
         ViewController.searchField.theme.bgColor = UIColor.white
@@ -916,8 +748,7 @@ import SystemConfiguration
         // returnキーを押したらの処理
         ViewController.searchField.itemSelectionHandler = { filteredResults, itemPosition in
             let item = filteredResults[itemPosition]
-            print("Item at position \(itemPosition): \(item.title)")
-            
+
             ViewController.searchField.text = item.title
             
             cancelButton.alpha = 1
@@ -965,18 +796,15 @@ import SystemConfiguration
         self.keyboardFrame = keyboardFrame
             if i == 0 {
                 if ViewController.isIphoneX {
-                    print("iPhoneX")
+                    // iPhoneX
                     let y = (titleTextView.frame.height + titleTextView.frame.origin.y) + (self.keyboardFrame.size.height + toolBar.frame.height)
                     let insertY = (self.view.bounds.height + 10) - y
                     textView.frame = CGRect(x: 0, y: self.titleTextView.frame.origin.y + self.titleTextView.frame.height + 30, width: self.view.frame.width, height: insertY)
-                    print(textView.frame.maxY)
-                   // self.scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.textView.frame.maxY)
-                    print(textView.frame.maxY)
                     self.textView.placeHolder = "本文を入力"
                     self.textView.PlaceHolderColor = UIColor.darkGray
                     i += 1
                 } else {
-                    print("iPhoneX以外")
+                    // iPhoneX以外
                     let y = (titleTextView.frame.height + titleTextView.frame.origin.y) + (self.keyboardFrame.size.height + toolBar.frame.height)
                     let insertY = (self.view.bounds.height + 38) - y
                     textView.frame = CGRect(x: 0, y: self.titleTextView.frame.origin.y + self.titleTextView.frame.height + 5, width: self.view.frame.width, height: insertY)

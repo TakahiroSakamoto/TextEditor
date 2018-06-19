@@ -1,6 +1,5 @@
 PODS:
   - Alamofire (4.7.2)
-  - BEMCheckBox (1.4.1)
   - Fuzi (1.0.1)
   - RegeributedTextView (0.2.1)
   - SearchTextField (1.2.0)
@@ -10,7 +9,6 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
-  - BEMCheckBox
   - Fuzi (~> 1.0.0)
   - RegeributedTextView (~> 0.2.1)
   - SearchTextField
@@ -20,7 +18,6 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   Fuzi: 851403654bac55675aaeed815d0c8a1d3e3d3e8b
   RegeributedTextView: b48575682b49c8d9b24aa7f7becd9c9e65bfad78
   SearchTextField: a5bb7e4c33affadb115afdbe8100d84ef10a8024
@@ -28,6 +25,6 @@ SPEC CHECKSUMS:
   TLPhotoPicker: 03fff95ad5b62551a3870d5d89283dd6c680545f
   URLEmbeddedView: 993131159b97c82c5c83aa6a3170a6d723f07f5c
 
-PODFILE CHECKSUM: 83fb6da64012f4a3256800f2fb86957d5afe0276
+PODFILE CHECKSUM: be97565bd84f27ee85512a9ccfc06039389ef8f6
 
 COCOAPODS: 1.4.0
