@@ -349,7 +349,7 @@ open class RegeributedTextView: UITextView {
         guard let selectedRange = attribute?.range,
             let names = attribute?.attributeNames,
             let value = attributedText.attribute(at: offset, attributeNames: names) else { return }
-        _delegate?.regeributedTextView(self, didSelect: text.substring(with: selectedRange), values: value)
+        _delegate?.regeributedTextView(self, didSelect: String(text[selectedRange]), values: value)
     }
 }
 
@@ -395,7 +395,7 @@ extension RegeributedTextView {
     
     // テキストが変更された際に呼ばれる
     @objc func TextChanged(niti:NSNotification) {
-        if 0 == self.text.characters.count {
+        if 0 == self.text.count {
             m_labelForPlaceHolder?.isHidden = false
         }
         else {

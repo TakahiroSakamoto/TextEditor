@@ -35,7 +35,7 @@ extension String {
         let md5 = MD5().calculate(for: self.utf8.lazy.map({ $0 as UInt8 }))
         return md5.lazy.reduce("") {
             var s = String($1, radix: 16)
-            if s.characters.count == 1 {
+            if s.count == 1 {
                 s = "0" + s
             }
             return $0 + s

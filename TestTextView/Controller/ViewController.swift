@@ -25,11 +25,6 @@ import SystemConfiguration
     
     @IBOutlet weak var titleTextView: TitleTextView!
     
-    static var selfView: UIView!
-    var selectedAt: Int!
-    
-    let playerViewController = AVPlayerViewController()
-    
     // ORGのURLを入力する
     var orgTextField: UITextField!
     var orgOptionalTextField: UITextField!
@@ -43,8 +38,6 @@ import SystemConfiguration
     
     // TextView内にある写真、動画をクリックした際に使用する
     var textInSelectImage = UIImage()
-    var textInSelectMovie = UIImage()
-    
     
     //var selectedImage = UIImageView()
     let selectTextInImage = UIView()
@@ -53,7 +46,7 @@ import SystemConfiguration
     var textSize: CGRect!
     
     var images = [UIImage]()
-    var testImages = [UIImage]()
+
     
     // カメラロール
     var selectedAssets = [TLPHAsset]()
@@ -70,11 +63,6 @@ import SystemConfiguration
     
     let toolBar = UIToolbar()
     
-    // ビデオのURLを格納
-    var videoURLs: [URL]? = []
-    var videoImages: [(range: NSRange, image: UIImage, url: URL?)] = []
-    var isVideo = false
-    var isCheckInsertVideo = false
     
     // キーボードのCGRect
     var keyboardFrame: CGRect!
@@ -102,7 +90,6 @@ import SystemConfiguration
     
     // 文字列置換するために、リンク挿入のリンクと任意テキストを格納
     var urlText = [(url: String, urlText: String?)]()
-    var urlSubText: String!
     
     var titleText: String!
     
@@ -112,7 +99,6 @@ import SystemConfiguration
     override func viewDidLoad() {
         super.viewDidLoad()
         textView = RegeributedTextView()
-        ViewController.selfView = self.view
         addToolBar()
         
         self.textView.delegate = self
@@ -152,15 +138,13 @@ import SystemConfiguration
     
     // TextViewのテキストにカーソル合わせたタイミングで呼ばれるおーー
     func textViewDidChangeSelection(_ textView: UITextView) {
-        selectedAt = textView.selectedRange.location
         selectTextInImage.removeFromSuperview()
       
-        let textRange: UITextRange? = self.textView.selectedTextRange//selectTextRange
+        let textRange: UITextRange? = self.textView.selectedTextRange
         if textRange == nil {return}
 
         textSize = self.textView.caretRect(for: (textRange?.start)!)
             if textSize.height >= 95 {
-                //selectTextInImage = UIView()
                 selectTextInImage.frame = CGRect(x: textSize.origin.x - self.textInSelectImage.size.width + 1, y: textSize.origin.y - 2, width: self.textInSelectImage.size.width, height: textSize.size.height + 1)
                 selectTextInImage.layer.borderColor = UIColor.green.cgColor
                 selectTextInImage.layer.borderWidth = 4
@@ -175,16 +159,6 @@ import SystemConfiguration
             }
     }
     
-    @objc func setVideoImage(notification: Notification) {
-        if isVideo {
-            for i in 0..<self.images.count {
-                self.videoImages[i].url = self.videoURLs![i]
-            }
-            self.isVideo = false
-        }
-        self.images.removeAll()
-    }
-    
     
     // アルバムから画像取得する
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
@@ -194,23 +168,6 @@ import SystemConfiguration
         
         for img in self.selectedAssets.reversed() {
             self.images.append(img.fullResolutionImage!)
-            //self.nowCursor = self.textView.selectedRange
-            
-            if isVideo {
-                    var url: URL? = nil
-                    PHImageManager.default().requestAVAsset(forVideo: img.phAsset!, options: nil) { (avasset, audioMix, info) in
-                        
-                        if let urlAsset = avasset as? AVURLAsset {
-                            url = urlAsset.url
-                            self.videoURLs?.append(url!)
-                            self.videoURLs?.reverse()
-                        } else if let sandboxKeys = info?["PHImageFileSandboxExtensionTokenKey"] as? String, let path = sandboxKeys.components(separatedBy: ";").last {
-                            url = URL(fileURLWithPath: path)
-                            self.videoURLs?.append(url!)
-                            self.videoURLs?.reverse()
-                        }
-                    }
-            }
         }
         
             for oneImage in self.images {
@@ -220,11 +177,7 @@ import SystemConfiguration
 
             }
         
-        if self.videoURLs! != [] {
-            NotificationCenter.default.addObserver(self, selector: #selector(self.setVideoImage), name: NSNotification.Name(rawValue: "setVideoImage"), object: nil)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setVideoImage"), object: nil)
-        }
-        
+
         self.images.removeAll()
         self.textView.becomeFirstResponder()
         
@@ -272,8 +225,7 @@ import SystemConfiguration
     
     @objc func movieMode(){
         // view.endEditing(true)
-        self.isVideo = true
-        self.isCheckInsertVideo = true
+       
         makePhotoLibrary(isCameraOrVideoMode: true)
     }
     
@@ -525,10 +477,7 @@ import SystemConfiguration
         let oriRange = NSMakeRange(0, startPos)
         let oriRangeRight = NSMakeRange(selectRange.location, endPos)
        
-        if self.isVideo {
-            self.videoImages.append((oriRangeRight, self.textInSelectImage, nil))
-        }
-        
+
         print("\(startPos)" + "startPos")
         print("\(endPos)" + "endPos")
         print("\(oriRangeRight)" + "oriRangeRight")
@@ -574,11 +523,8 @@ import SystemConfiguration
         if attachments.count > 0 {
             var i = 0
             var j = 1
-            let attT = textView.attributedText!
-            let documentAttributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
             let startRange = NSMakeRange(0, attachments[0].range.location)
-            let htmlData = try! attT.data(from: startRange, documentAttributes: documentAttributes)
-            let html = String(data: htmlData, encoding: .utf8)
+         
             textToHtml(getRange: startRange)
             (j ..< attachments.count).forEach({ (nil) in
                 let nextImageRange = NSMakeRange(attachments[i].range.location + 1, attachments[j].range.location - attachments[i].range.location - 1)
@@ -597,7 +543,6 @@ import SystemConfiguration
             textToHtml(getRange: oriRange)
         }
         
-        isCheckInsertVideo = false
         sumHtml = self.htmls.joined()
         
         // リンクをHTML化
@@ -639,15 +584,13 @@ import SystemConfiguration
         
         // Font、FontSizeがぶっ壊れてしまうバグを解消
         convertAttributeText = sumHtml.convertHtml(withFont: UIFont(name: "Helvetica", size: 16), align: .left)
-    
-        self.videoURLs?.removeAll()
         
     }
     
     
     // テキストが入力されるたびに何かしたいとき
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let textAsNSString = self.textView.text as! NSString
+        let textAsNSString = self.textView.text! as NSString
         // rangeの範囲をtestに置換する
         let replace = textAsNSString.replacingCharacters(in: range, with: text)
         let boldString = replace.range(of: "\n")
@@ -696,21 +639,6 @@ import SystemConfiguration
         }
     }
     
-    func videoToHtml(getRange: NSRange, i: Int) {
-        let documentAttributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
-        let attT = textView.attributedText!
-        let htmlData = try! attT.data(from: getRange, documentAttributes: documentAttributes)
-        // 画像だけのHTML全体を取得
-        let html = String(data: htmlData, encoding: .utf8)
-        do {
-            let doc = try HTMLDocument(string: html!, encoding: .utf8)
-            let changeString = "<img src=\"file:///Attachment.png\" alt=\"Attachment.png\">"
-            
-            self.htmls.append((doc.body?.rawXML.replacingOccurrences(of: changeString, with: "<video controls width=\"\(self.view.frame.width-5)\" height=\"450\"><source src=\"\(self.videoURLs![i].absoluteString)\"></video>"))!)
-        } catch let error {
-            print(error)
-        }
-    }
     
     func convertImageToBase64(image: UIImage) -> String{
         let imageData = UIImagePNGRepresentation(image)
@@ -760,11 +688,11 @@ import SystemConfiguration
             if let criteria = ViewController.searchField.text {
                 self.timer?.invalidate()
                 
-                if criteria.characters.count > 1 {
+                if criteria.count > 1 {
                     self.timer = Timer.scheduledTimer(timeInterval: 0.8, target: self, selector: #selector(self.search), userInfo: criteria, repeats: false)
                     cancelButton.alpha = 0
                     submitButton.alpha = 0
-                } else if criteria.characters.count == 0 {
+                } else if criteria.count == 0 {
                     cancelButton.alpha = 1
                     submitButton.alpha = 1
                 }

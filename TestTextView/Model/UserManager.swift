@@ -50,11 +50,11 @@ class UserManager: NSObject {
             self.keepAlive = false
             self.indicator.stopAnimating()
         }
-        let runLoop = RunLoop.current
-        while keepAlive &&
-            runLoop.run(mode: RunLoopMode.defaultRunLoopMode, before: NSDate(timeIntervalSinceNow: 0.1) as Date) {
-                // 0.1秒毎の処理なので、処理が止まらない
-                print("取得待ち")
-        }
+//        let runLoop = RunLoop.current
+//        while keepAlive &&
+//            runLoop.run(mode: RunLoopMode.defaultRunLoopMode, before: NSDate(timeIntervalSinceNow: 0.1) as Date) {
+//                // 0.1秒毎の処理なので、処理が止まらない
+//
+//        }
     }
 }

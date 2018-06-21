@@ -84,7 +84,7 @@ class TitleTextView: UITextView {
     
     // テキストが変更された際に呼ばれる
     @objc func TextChanged(niti:NSNotification) {
-        if 0 == self.text.characters.count {
+        if 0 == self.text.count {
             m_labelForPlaceHolder?.isHidden = false
         }
         else {
