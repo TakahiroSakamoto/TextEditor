@@ -700,7 +700,7 @@ extension TLPhotosPickerViewController: UICollectionViewDelegate,UICollectionVie
                 print("not supported by the simulator.")
                 return
             }else {
-                if let nibName = self.configure.cameraCellNibSet?.nibName {
+                if (self.configure.cameraCellNibSet?.nibName) != nil {
                     cell.selectedCell()
                 }else {
                     showCameraIfAuthorized()

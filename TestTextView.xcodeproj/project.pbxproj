@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3D18808A20860A540095EA69 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D18808920860A540095EA69 /* UIView+Extension.swift */; };
 		3D30A2102094D4FB00E478F0 /* defaultProfileImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D30A20F2094D4FB00E478F0 /* defaultProfileImage.png */; };
-		3D311EFF20B2D4A80041A115 /* URLEmbeddedView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D311F0020B2D4A80041A115 /* URLEmbeddedView.framework */; };
 		3D342B782089E30A0014C198 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B772089E30A0014C198 /* User.swift */; };
 		3D342B7A2089E3EA0014C198 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B792089E3EA0014C198 /* UserManager.swift */; };
 		3D342B7C208D95BF0014C198 /* TitleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B7B208D95BF0014C198 /* TitleTextView.swift */; };
@@ -51,7 +50,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D311EFF20B2D4A80041A115 /* URLEmbeddedView.framework in Frameworks */,
 				B8860A9BC1AEE84AC33692CF /* Pods_TestTextView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,7 +256,6 @@
 				"${BUILT_PRODUCTS_DIR}/SearchTextField/SearchTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TLPhotoPicker/TLPhotoPicker.framework",
-				"${BUILT_PRODUCTS_DIR}/URLEmbeddedView/URLEmbeddedView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -268,7 +265,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SearchTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TLPhotoPicker.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/URLEmbeddedView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

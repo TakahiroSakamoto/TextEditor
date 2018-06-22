@@ -5,7 +5,6 @@ PODS:
   - SearchTextField (1.2.0)
   - SwiftyJSON (4.1.0)
   - TLPhotoPicker (1.5.6)
-  - URLEmbeddedView (0.14.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
@@ -14,7 +13,6 @@ DEPENDENCIES:
   - SearchTextField
   - SwiftyJSON
   - TLPhotoPicker (= 1.5.6)
-  - URLEmbeddedView (= 0.14.0)
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -23,8 +21,7 @@ SPEC CHECKSUMS:
   SearchTextField: a5bb7e4c33affadb115afdbe8100d84ef10a8024
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   TLPhotoPicker: 03fff95ad5b62551a3870d5d89283dd6c680545f
-  URLEmbeddedView: 993131159b97c82c5c83aa6a3170a6d723f07f5c
 
-PODFILE CHECKSUM: be97565bd84f27ee85512a9ccfc06039389ef8f6
+PODFILE CHECKSUM: 149346ae050449eaeb0673ad2aae01db5ce081e1
 
 COCOAPODS: 1.4.0

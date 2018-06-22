@@ -6,7 +6,7 @@ target 'TestTextView' do
   use_frameworks!
 
   # Pods for TestTextView
-  pod 'URLEmbeddedView' , '0.14.0'
+  
   pod 'TLPhotoPicker' , '1.5.6'
   pod 'SearchTextField'
   pod 'RegeributedTextView' , '~> 0.2.1'
