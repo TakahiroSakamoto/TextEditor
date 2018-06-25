@@ -21,54 +21,13 @@ import SystemConfiguration
 
  class ViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, TLPhotosPickerViewControllerDelegate, RegeributedTextViewDelegate, UITextFieldDelegate {
 
-    var textView: RegeributedTextView!
-    
     @IBOutlet weak var titleTextView: TitleTextView!
     
-    // ORGのURLを入力する
-    var orgTextField: UITextField!
-    var orgOptionalTextField: UITextField!
-    var orgPreviewTextField: UITextField!
-  
-    // ポップアップのバックに表示するView
-    let backView = UIView()
-    let orgBackView = UIView()
-    var postOgpbackView: UIView!
-    var postMensionBackView: UIView!
-    
-    // TextView内にある写真、動画をクリックした際に使用する
-    var textInSelectImage = UIImage()
-    
-    //var selectedImage = UIImageView()
-    let selectTextInImage = UIView()
-    
-    // テキスト内の文字か画像かをカーソルサイズで判断する
-    var textSize: CGRect!
-    
-    var images = [UIImage]()
-
-    
-    // カメラロール
-    var selectedAssets = [TLPHAsset]()
-    
-    let mesionTextField = UITextField()
-    
-    // メンション表示
-    var users: SearchTextFieldItem!
-    static var searchField: SearchTextField!
-    
-    // 複数画像アップロードにカーソルを位置を知っておくため
-    var nowCursor: NSRange!
-    var selectTextRange: UITextRange!
-    
-    let toolBar = UIToolbar()
-    
-    
-    // キーボードのCGRect
-    var keyboardFrame: CGRect!
-    var i = 0
-    
-    static let isIphoneX: Bool = {
+    let kSelectTextInImage = UIView()
+    // キーボード上のツールバー
+    let kToolBar = UIToolbar()
+    // iPhoneXかどうかチェック
+    static let kIsIphoneX: Bool = {
         guard #available(iOS 11.0, *),
             UIDevice.current.userInterfaceIdiom == .phone else {
                 return false
@@ -79,22 +38,42 @@ import SystemConfiguration
         return (w == d1 && h == d2) || (w == d2 && h == d1)
     }()
     
+    var textView: RegeributedTextView!
+    // URLを入力する
+    var urlTextField: UITextField!
+    var urlOptionalTextField: UITextField!
+    var urlPreviewTextField: UITextField!
+    // ポップアップのバックに表示するView
+    var urlBackView: UIView!
+    var postbackView: UIView!
+    var postMensionBackView: UIView!
+    // TextView内にある写真、動画をクリックした際に使用する
+    var textInSelectImage = UIImage()
+    // テキスト内の文字か画像かをカーソルサイズで判断する
+    var textSize: CGRect!
+    var images = [UIImage]()
+    // カメラロールから取得するImage情報
+    var selectedAssets = [TLPHAsset]()
+    // メンション表示
+    var users: SearchTextFieldItem!
+    static var searchField: SearchTextField!
+    // 複数画像アップロードにカーソルを位置を知っておくため
+    var nowCursor: NSRange!
+    var selectTextRange: UITextRange!
+    // キーボードのCGRect
+    var keyboardFrame: CGRect!
+    var i = 0
     var timer: Timer?
     // 分割したTextをHTML化し、格納
     var htmls = [String]()
     var attachments = [(range: NSRange, image: UIImage)]()
     var convertAttributeText: NSAttributedString!
-    
     // メンションのアカウント名を配列にぶち込む
     var mensionUserName = [String]()
-    
     // 文字列置換するために、リンク挿入のリンクと任意テキストを格納
     var urlText = [(url: String, urlText: String?)]()
-    
     var titleText: String!
-    
     var sumHtml: String!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,9 +104,8 @@ import SystemConfiguration
         
     }
     
-    
     func textViewDidChange(_ textView: UITextView) {
-        let size:CGSize = titleTextView.sizeThatFits(titleTextView.frame.size)
+        let size = titleTextView.sizeThatFits(titleTextView.frame.size)
         titleTextView.frame.size.height = size.height
 
         view.layoutIfNeeded()
@@ -138,24 +116,24 @@ import SystemConfiguration
     
     // TextViewのテキストにカーソル合わせたタイミングで呼ばれるおーー
     func textViewDidChangeSelection(_ textView: UITextView) {
-        selectTextInImage.removeFromSuperview()
+        kSelectTextInImage.removeFromSuperview()
       
         let textRange: UITextRange? = self.textView.selectedTextRange
         if textRange == nil {return}
 
         textSize = self.textView.caretRect(for: (textRange?.start)!)
             if textSize.height >= 95 {
-                selectTextInImage.frame = CGRect(x: textSize.origin.x - self.textInSelectImage.size.width + 1, y: textSize.origin.y - 2, width: self.textInSelectImage.size.width, height: textSize.size.height + 1)
-                selectTextInImage.layer.borderColor = UIColor.green.cgColor
-                selectTextInImage.layer.borderWidth = 4
-                selectTextInImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+                kSelectTextInImage.frame = CGRect(x: textSize.origin.x - self.textInSelectImage.size.width + 1, y: textSize.origin.y - 2, width: self.textInSelectImage.size.width, height: textSize.size.height + 1)
+                kSelectTextInImage.layer.borderColor = UIColor.green.cgColor
+                kSelectTextInImage.layer.borderWidth = 4
+                kSelectTextInImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
                 textView.tintColor = UIColor.clear
-                self.textView.addSubview(selectTextInImage)
+                self.textView.addSubview(kSelectTextInImage)
                 
             } else {
                 
                 textView.tintColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
-                selectTextInImage.removeFromSuperview()
+                kSelectTextInImage.removeFromSuperview()
             }
     }
     
@@ -176,8 +154,7 @@ import SystemConfiguration
                 self.insertViewToImage(selectRange: nowCursor, selectTextRange: selectTextRange, url: nil)
 
             }
-        
-
+    
         self.images.removeAll()
         self.textView.becomeFirstResponder()
         
@@ -188,34 +165,25 @@ import SystemConfiguration
     }
     
     func addToolBar() {
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        kToolBar.barStyle = UIBarStyle.default
+        kToolBar.isTranslucent = true
+        kToolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
         
         let cameraButton = UIBarButtonItem(image: UIImage(named: "camera")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraMode))
-        
         let movieButton = UIBarButtonItem(image: UIImage(named: "video")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.movieMode))
-        
-        let ogpButton = UIBarButtonItem(image: UIImage(named: "link")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.ogpMode))
-        
+        let urlButton = UIBarButtonItem(image: UIImage(named: "link")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.urlMode))
         let spaceHighButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
         spaceHighButton.width = 120
-        
         let mensionButton = UIBarButtonItem(image: UIImage(named: "mention")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.mensionMode))
-        
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
         spaceButton.width = 10
-
-        let iconSpaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-        iconSpaceButton.width = 13
-        
         let previewButton = UIBarButtonItem(image: UIImage(named: "eye")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.previewMode))
         
-        toolBar.setItems([cameraButton, iconSpaceButton, movieButton, iconSpaceButton, ogpButton, spaceButton, mensionButton, spaceButton, spaceHighButton, previewButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
+        kToolBar.setItems([cameraButton, spaceButton, movieButton, spaceButton, urlButton, spaceButton, mensionButton, spaceButton, spaceHighButton, previewButton], animated: false)
+        kToolBar.isUserInteractionEnabled = true
+        kToolBar.sizeToFit()
         
-        textView.inputAccessoryView = toolBar
+        textView.inputAccessoryView = kToolBar
     }
     
     @objc func cameraMode(){
@@ -229,16 +197,16 @@ import SystemConfiguration
         makePhotoLibrary(isCameraOrVideoMode: true)
     }
     
-    @objc func ogpMode(){
+    @objc func urlMode(){
         if postMensionBackView != nil {
             postMensionBackView.removeFromSuperview()
         }
-        makeOrgView()
+        makeUrlView()
     }
     
     @objc func mensionMode(){
-        if postOgpbackView != nil {
-            postOgpbackView.removeFromSuperview()
+        if postbackView != nil {
+            postbackView.removeFromSuperview()
         }
         
         ViewController.searchField = SearchTextField.init(frame: CGRect(x: self.view.frame.origin.x + 20, y: self.view.center.y / 4, width: self.view.frame.width - 40, height: 40))
@@ -309,69 +277,69 @@ import SystemConfiguration
     }
     
     
-    func makeOrgView() {
-        postOgpbackView = makeMesionBackView()
+    func makeUrlView() {
+        postbackView = makeMesionBackView()
+        urlBackView = UIView()
+        urlBackView.frame.size.width = self.view.frame.width
+        urlBackView.frame.size.height = 240
+        urlBackView.backgroundColor = UIColor.white
+        urlBackView.center.y = postbackView.center.y - 140
+        postbackView.addSubview(urlBackView)
         
-        orgBackView.frame.size.width = self.view.frame.width
-        orgBackView.frame.size.height = 240
-        orgBackView.backgroundColor = UIColor.white
-        orgBackView.center.y = postOgpbackView.center.y - 140
-        postOgpbackView.addSubview(orgBackView)
-        
-        orgTextField = makeOrgTextField(placeholder: "http://", y:  orgBackView.frame.height / 6)
-        orgOptionalTextField = makeOrgTextField(placeholder: "任意テキスト", y: orgTextField.frame.height + 50)
-        orgOptionalTextField.addTarget(self, action: #selector(self.previewText) , for: UIControlEvents.editingChanged)
-        orgTextField.addTarget(self, action: #selector(self.previewText), for: UIControlEvents.editingChanged)
-        orgPreviewTextField = makeOrgTextField(placeholder: "", y: orgOptionalTextField.frame.height + 95)
-        _ = makeOrgButton(x: orgBackView.center.x / 2, title: "キャンセル", action: #selector(self.cancelOrg))
-        _ = makeOrgButton(x: orgBackView.frame.size.width / 2*1.5, title: "入力", action: #selector(self.setOrg))
-        orgPreviewTextField.isEnabled = false
+        urlTextField = makeUrlTextField(placeholder: "http://", y:  urlBackView.frame.height / 6)
+        urlOptionalTextField = makeUrlTextField(placeholder: "任意テキスト", y: urlTextField.frame.height + 50)
+        urlOptionalTextField.addTarget(self, action: #selector(self.previewText) , for: UIControlEvents.editingChanged)
+        urlTextField.addTarget(self, action: #selector(self.previewText), for: UIControlEvents.editingChanged)
+        urlPreviewTextField = makeUrlTextField(placeholder: "", y: urlOptionalTextField.frame.height + 95)
+        _ = makeUrlUnderButton(x: urlBackView.center.x / 2, title: "キャンセル", action: #selector(self.cancelUrl))
+        _ = makeUrlUnderButton(x: urlBackView.frame.size.width / 2*1.5, title: "入力", action: #selector(self.setUrl))
+        urlPreviewTextField.isEnabled = false
         
         if (UIPasteboard.general.string != nil && ((UIPasteboard.general.string?.range(of: "http")) != nil)) {
-            orgTextField.text = UIPasteboard.general.string
+            urlTextField.text = UIPasteboard.general.string
         }
         
-        if !(self.orgTextField.text?.isEmpty)! {
-            self.orgPreviewTextField.text =
-                self.orgTextField.text
-            self.orgPreviewTextField.textColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
+        if !(self.urlTextField.text?.isEmpty)! {
+            self.urlPreviewTextField.text =
+                self.urlTextField.text
+            self.urlPreviewTextField.textColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
             let stringAttributes: [NSAttributedStringKey: Any] = [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue, .underlineColor: UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)]
-            let previewString = NSAttributedString(string: self.orgTextField.text!, attributes: stringAttributes)
-            self.orgPreviewTextField.attributedText = previewString
+            let previewString = NSAttributedString(string: self.urlTextField.text!, attributes: stringAttributes)
+            self.urlPreviewTextField.attributedText = previewString
             
         }
     }
     
     @objc func previewText() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            if !(self.orgOptionalTextField.text?.isEmpty)! && !(self.orgTextField.text?.isEmpty)! {
+            if !(self.urlOptionalTextField.text?.isEmpty)! && !(self.urlTextField.text?.isEmpty)! {
             
-                self.orgPreviewTextField.textColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
+                self.urlPreviewTextField.textColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
                 let stringAttributes: [NSAttributedStringKey: Any] = [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue, .underlineColor: UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)]
-                let previewString = NSAttributedString(string: self.orgOptionalTextField.text!, attributes: stringAttributes)
-                self.orgPreviewTextField.attributedText = previewString
-            } else if !(self.orgTextField.text?.isEmpty)! && (self.orgOptionalTextField.text?.isEmpty)! {
-                self.orgPreviewTextField.textColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
+                let previewString = NSAttributedString(string: self.urlOptionalTextField.text!, attributes: stringAttributes)
+                self.urlPreviewTextField.attributedText = previewString
+            } else if !(self.urlTextField.text?.isEmpty)! && (self.urlOptionalTextField.text?.isEmpty)! {
+                self.urlPreviewTextField.textColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)
                 let stringAttributes: [NSAttributedStringKey: Any] = [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue, .underlineColor: UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)]
-                let previewString = NSAttributedString(string: self.orgTextField.text!, attributes: stringAttributes)
-                self.orgPreviewTextField.attributedText = previewString
+                let previewString = NSAttributedString(string: self.urlTextField.text!, attributes: stringAttributes)
+                self.urlPreviewTextField.attributedText = previewString
             }
         }
     }
 
     
-    func makeOrgButton(x: CGFloat, title: String, action: Selector) -> UIButton {
+    func makeUrlUnderButton(x: CGFloat, title: String, action: Selector) -> UIButton {
         let button = UIButton()
-        button.frame.size.width = orgBackView.frame.size.width / 2
-        button.frame.size.height = orgTextField.frame.size.height
+        button.frame.size.width = urlBackView.frame.size.width / 2
+        button.frame.size.height = urlTextField.frame.size.height
         button.center.x = x
-        button.center.y = orgBackView.frame.size.height - 16
+        button.center.y = urlBackView.frame.size.height - 16
         button.setTitle(title, for: .normal)
         button.setTitleColor(UIColor.lightGray, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
-        orgBackView.addSubview(button)
+        urlBackView.addSubview(button)
         return button
     }
     
@@ -393,17 +361,17 @@ import SystemConfiguration
         return button
     }
     
-    func makeOrgTextField(placeholder: String, y: CGFloat) -> UITextField {
-        let orgTextField = UITextField()
-        orgTextField.frame.size.width = orgBackView.frame.size.width - 40
-        orgTextField.frame.size.height = orgBackView.frame.height / 7
-        orgTextField.center.y = y
-        orgTextField.center.x = orgBackView.center.x
-        orgTextField.backgroundColor = UIColor.groupTableViewBackground
-        orgTextField.layer.cornerRadius = 6
-        orgTextField.placeholder = placeholder
-        orgBackView.addSubview(orgTextField)
-        return orgTextField
+    func makeUrlTextField(placeholder: String, y: CGFloat) -> UITextField {
+        let urlTextField = UITextField()
+        urlTextField.frame.size.width = urlBackView.frame.size.width - 40
+        urlTextField.frame.size.height = urlBackView.frame.height / 7
+        urlTextField.center.y = y
+        urlTextField.center.x = urlBackView.center.x
+        urlTextField.backgroundColor = UIColor.groupTableViewBackground
+        urlTextField.layer.cornerRadius = 6
+        urlTextField.placeholder = placeholder
+        urlBackView.addSubview(urlTextField)
+        return urlTextField
     }
     
     func makePhotoLibrary(isCameraOrVideoMode: Bool) {
@@ -428,8 +396,8 @@ import SystemConfiguration
     }
     
     
-    @objc func setOrg() {
-        if (orgTextField.text?.isEmpty)! {
+    @objc func setUrl() {
+        if (urlTextField.text?.isEmpty)! {
             let alert = UIAlertController(title: "URLを入力してください", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default, handler: nil)
             alert.addAction(action)
@@ -438,21 +406,21 @@ import SystemConfiguration
             return
         } else {
             if let range = self.textView.selectedTextRange {
-                self.textView.replace(range, withText: " " + self.orgPreviewTextField.text! + " ")
-                self.textView.addAttributes(orgPreviewTextField.text!, values: ["URL": self.orgTextField.text!], attributes: [.underline(UnderlineStyle.single), .underlineColor(UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)), .textColor(UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1))])
+                self.textView.replace(range, withText: " " + self.urlPreviewTextField.text! + " ")
+                self.textView.addAttributes(urlPreviewTextField.text!, values: ["URL": self.urlTextField.text!], attributes: [.underline(UnderlineStyle.single), .underlineColor(UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)), .textColor(UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1))])
             }
         }
         
-        if !(self.orgOptionalTextField.text?.isEmpty)! && !(self.orgTextField.text?.isEmpty)! {
-            self.urlText.append((url: self.orgTextField.text!, urlText: self.orgOptionalTextField.text!))
+        if !(self.urlOptionalTextField.text?.isEmpty)! && !(self.urlTextField.text?.isEmpty)! {
+            self.urlText.append((url: self.urlTextField.text!, urlText: self.urlOptionalTextField.text!))
         
-        } else if !(self.orgTextField.text?.isEmpty)! && (self.orgOptionalTextField.text?.isEmpty)! {
-            self.urlText.append((url: self.orgTextField.text!, urlText: nil))
+        } else if !(self.urlTextField.text?.isEmpty)! && (self.urlOptionalTextField.text?.isEmpty)! {
+            self.urlText.append((url: self.urlTextField.text!, urlText: nil))
            
         }
         
         textView.resignFirstResponder()
-        postOgpbackView.removeFromSuperview()
+        postbackView.removeFromSuperview()
     }
     
     
@@ -467,7 +435,6 @@ import SystemConfiguration
         let selectedImage = NSTextAttachment()
         selectedImage.image = self.textInSelectImage
         let strImage = NSAttributedString(attachment: selectedImage)
-        
         let textRange = selectTextRange
         let beginning = self.textView.beginningOfDocument
         let ending = self.textView.endOfDocument
@@ -476,14 +443,6 @@ import SystemConfiguration
         let endPos = self.textView.offset(from: startPosition, to: ending)
         let oriRange = NSMakeRange(0, startPos)
         let oriRangeRight = NSMakeRange(selectRange.location, endPos)
-       
-
-        print("\(startPos)" + "startPos")
-        print("\(endPos)" + "endPos")
-        print("\(oriRangeRight)" + "oriRangeRight")
-        print("\(oriRange)" + "oriRange")
-      
-        
         let str = NSMutableAttributedString()
         
         if self.textView.text.isEmpty {
@@ -649,10 +608,10 @@ import SystemConfiguration
     }
     
     
-    @objc func cancelOrg() {
-        postOgpbackView.removeFromSuperview()
-        orgTextField.text = ""
-        orgOptionalTextField.text = ""
+    @objc func cancelUrl() {
+        postbackView.removeFromSuperview()
+        urlTextField.text = ""
+        urlOptionalTextField.text = ""
     }
     
     @objc func textFieldEditingChanged() {
@@ -723,9 +682,9 @@ import SystemConfiguration
         if let keyboardFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
         self.keyboardFrame = keyboardFrame
             if i == 0 {
-                if ViewController.isIphoneX {
+                if ViewController.kIsIphoneX {
                     // iPhoneX
-                    let y = (titleTextView.frame.height + titleTextView.frame.origin.y) + (self.keyboardFrame.size.height + toolBar.frame.height)
+                    let y = (titleTextView.frame.height + titleTextView.frame.origin.y) + (self.keyboardFrame.size.height + kToolBar.frame.height)
                     let insertY = (self.view.bounds.height + 10) - y
                     textView.frame = CGRect(x: 0, y: self.titleTextView.frame.origin.y + self.titleTextView.frame.height + 30, width: self.view.frame.width, height: insertY)
                     self.textView.placeHolder = "本文を入力"
@@ -733,7 +692,7 @@ import SystemConfiguration
                     i += 1
                 } else {
                     // iPhoneX以外
-                    let y = (titleTextView.frame.height + titleTextView.frame.origin.y) + (self.keyboardFrame.size.height + toolBar.frame.height)
+                    let y = (titleTextView.frame.height + titleTextView.frame.origin.y) + (self.keyboardFrame.size.height + kToolBar.frame.height)
                     let insertY = (self.view.bounds.height + 38) - y
                     textView.frame = CGRect(x: 0, y: self.titleTextView.frame.origin.y + self.titleTextView.frame.height + 5, width: self.view.frame.width, height: insertY)
                     self.textView.placeHolder = "本文を入力"
