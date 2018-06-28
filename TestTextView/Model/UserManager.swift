@@ -15,8 +15,8 @@ import Foundation
 class UserManager: NSObject {
     static let sharedInstance = UserManager()
     var users: [SearchTextFieldItem] = []
-    var keepAlive = true
-    var indicator: UIActivityIndicatorView!
+    private var keepAlive = true
+    private var indicator: UIActivityIndicatorView!
     
     // ユーザーを取得して、配列にぶち込む
     func fetchUsers(keyword: String) {
@@ -47,11 +47,6 @@ class UserManager: NSObject {
             self.keepAlive = false
             self.indicator.stopAnimating()
         }
-//        let runLoop = RunLoop.current
-//        while keepAlive &&
-//            runLoop.run(mode: RunLoopMode.defaultRunLoopMode, before: NSDate(timeIntervalSinceNow: 0.1) as Date) {
-//                // 0.1秒毎の処理なので、処理が止まらない
-//
-//        }
+
     }
 }

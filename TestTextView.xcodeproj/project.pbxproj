@@ -13,7 +13,12 @@
 		3D342B7A2089E3EA0014C198 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B792089E3EA0014C198 /* UserManager.swift */; };
 		3D342B7C208D95BF0014C198 /* TitleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B7B208D95BF0014C198 /* TitleTextView.swift */; };
 		3D38478F20A8481000F3337F /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38478E20A8481000F3337F /* PreviewViewController.swift */; };
+		3D575E4120E20BA600AB5C5A /* UrlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D575E4020E20BA600AB5C5A /* UrlButton.swift */; };
+		3D575E4320E20ED500AB5C5A /* MensionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D575E4220E20ED500AB5C5A /* MensionButton.swift */; };
+		3D575E4720E2151700AB5C5A /* UrlTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D575E4620E2151700AB5C5A /* UrlTextField.swift */; };
+		3D575E4B20E2274B00AB5C5A /* BackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D575E4A20E2274B00AB5C5A /* BackView.swift */; };
 		3D826D0A207C992400F27E10 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D826D09207C992400F27E10 /* UIImage+Extension.swift */; };
+		3D90B80420E241B30055265C /* UserSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D90B80320E241B30055265C /* UserSearchTextField.swift */; };
 		3DAAA4D1204FB0C500A6A1DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAAA4D0204FB0C500A6A1DB /* AppDelegate.swift */; };
 		3DAAA4D3204FB0C500A6A1DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAAA4D2204FB0C500A6A1DB /* ViewController.swift */; };
 		3DAAA4D6204FB0C500A6A1DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DAAA4D4204FB0C500A6A1DB /* Main.storyboard */; };
@@ -32,7 +37,12 @@
 		3D342B792089E3EA0014C198 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		3D342B7B208D95BF0014C198 /* TitleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextView.swift; sourceTree = "<group>"; };
 		3D38478E20A8481000F3337F /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		3D575E4020E20BA600AB5C5A /* UrlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlButton.swift; sourceTree = "<group>"; };
+		3D575E4220E20ED500AB5C5A /* MensionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MensionButton.swift; sourceTree = "<group>"; };
+		3D575E4620E2151700AB5C5A /* UrlTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlTextField.swift; sourceTree = "<group>"; };
+		3D575E4A20E2274B00AB5C5A /* BackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackView.swift; sourceTree = "<group>"; };
 		3D826D09207C992400F27E10 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		3D90B80320E241B30055265C /* UserSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchTextField.swift; sourceTree = "<group>"; };
 		3DAAA4CD204FB0C500A6A1DB /* TestTextView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestTextView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DAAA4D0204FB0C500A6A1DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DAAA4D2204FB0C500A6A1DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +101,11 @@
 				3D18808920860A540095EA69 /* UIView+Extension.swift */,
 				3D342B7B208D95BF0014C198 /* TitleTextView.swift */,
 				3DDF388220A438A40018AF3C /* String+Extension.swift */,
+				3D575E4020E20BA600AB5C5A /* UrlButton.swift */,
+				3D575E4220E20ED500AB5C5A /* MensionButton.swift */,
+				3D575E4620E2151700AB5C5A /* UrlTextField.swift */,
+				3D575E4A20E2274B00AB5C5A /* BackView.swift */,
+				3D90B80320E241B30055265C /* UserSearchTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -279,14 +294,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D18808A20860A540095EA69 /* UIView+Extension.swift in Sources */,
+				3D575E4B20E2274B00AB5C5A /* BackView.swift in Sources */,
+				3D575E4320E20ED500AB5C5A /* MensionButton.swift in Sources */,
 				3DAAA4D3204FB0C500A6A1DB /* ViewController.swift in Sources */,
 				3D38478F20A8481000F3337F /* PreviewViewController.swift in Sources */,
 				3DAAA4D1204FB0C500A6A1DB /* AppDelegate.swift in Sources */,
 				3D826D0A207C992400F27E10 /* UIImage+Extension.swift in Sources */,
+				3D575E4120E20BA600AB5C5A /* UrlButton.swift in Sources */,
+				3D90B80420E241B30055265C /* UserSearchTextField.swift in Sources */,
 				3D342B7A2089E3EA0014C198 /* UserManager.swift in Sources */,
 				3D342B782089E30A0014C198 /* User.swift in Sources */,
 				3DDF388320A438A40018AF3C /* String+Extension.swift in Sources */,
 				3D342B7C208D95BF0014C198 /* TitleTextView.swift in Sources */,
+				3D575E4720E2151700AB5C5A /* UrlTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
