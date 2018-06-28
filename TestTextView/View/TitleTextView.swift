@@ -11,21 +11,21 @@ import UIKit
 class TitleTextView: UITextView {
 
     // プレースホルダー用のラベル
-    var m_labelForPlaceHolder:UILabel?
+    var labelForPlaceHolder:UILabel?
     
     // プレースホルダーの文言
-    var m_strPlaceHolder:String?
+    var strPlaceHolder:String?
     
     // プレースホルダーのテキストの色
-    var m_colorForPlaceHolder:UIColor?
+    var colorForPlaceHolder:UIColor?
     
     func initialize() {
         NotificationCenter.default.addObserver(self, selector: #selector( self.TextChanged), name: NSNotification.Name.UITextViewTextDidChange, object: nil)
         
-        m_labelForPlaceHolder = UILabel(frame: CGRect(x: 8, y: 8, width: self.bounds.size.width - 16, height: 0))
-        m_labelForPlaceHolder?.numberOfLines = 0
-        m_labelForPlaceHolder?.font = UIFont.systemFont(ofSize: 35.0)
-        m_labelForPlaceHolder?.lineBreakMode = NSLineBreakMode.byCharWrapping
+        labelForPlaceHolder = UILabel(frame: CGRect(x: 8, y: 8, width: self.bounds.size.width - 16, height: 0))
+        labelForPlaceHolder?.numberOfLines = 0
+        labelForPlaceHolder?.font = UIFont.systemFont(ofSize: 35.0)
+        labelForPlaceHolder?.lineBreakMode = NSLineBreakMode.byCharWrapping
         
         // デフォルト設定
         self.placeHolder = "プレースホルダー"
@@ -35,7 +35,7 @@ class TitleTextView: UITextView {
 //        self.layer.borderWidth = 2
 //        self.layer.borderColor = UIColor.gray.cgColor
         
-        self.addSubview(m_labelForPlaceHolder!)
+        self.addSubview(labelForPlaceHolder!)
     }
     
     init(frame:CGRect) {
@@ -54,30 +54,30 @@ class TitleTextView: UITextView {
     
     var PlaceHolderColor:UIColor? {
         get {
-            return m_colorForPlaceHolder
+            return colorForPlaceHolder
         }
         set {
-            m_colorForPlaceHolder = newValue
-            if nil == m_colorForPlaceHolder {
-                m_colorForPlaceHolder = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+            colorForPlaceHolder = newValue
+            if nil == colorForPlaceHolder {
+                colorForPlaceHolder = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
             }
-            m_labelForPlaceHolder?.textColor = m_colorForPlaceHolder
+            labelForPlaceHolder?.textColor = colorForPlaceHolder
         }
     }
     var placeHolder:String? {
         get {
-            return m_strPlaceHolder
+            return strPlaceHolder
         }
         set {
-            m_strPlaceHolder = newValue
-            if nil == m_strPlaceHolder {
-                m_strPlaceHolder = ""
+            strPlaceHolder = newValue
+            if nil == strPlaceHolder {
+                strPlaceHolder = ""
             }
             // frameをリセットする
-            m_labelForPlaceHolder?.frame = CGRect(x: 8, y: 8, width: self.bounds.size.width - 16, height: 0)
+            labelForPlaceHolder?.frame = CGRect(x: 8, y: 8, width: self.bounds.size.width - 16, height: 0)
             
-            m_labelForPlaceHolder?.text = m_strPlaceHolder
-            m_labelForPlaceHolder?.sizeToFit()
+            labelForPlaceHolder?.text = strPlaceHolder
+            labelForPlaceHolder?.sizeToFit()
         }
     }
     
@@ -85,10 +85,10 @@ class TitleTextView: UITextView {
     // テキストが変更された際に呼ばれる
     @objc func TextChanged(niti:NSNotification) {
         if 0 == self.text.count {
-            m_labelForPlaceHolder?.isHidden = false
+            labelForPlaceHolder?.isHidden = false
         }
         else {
-            m_labelForPlaceHolder?.isHidden = true
+            labelForPlaceHolder?.isHidden = true
         }
     }
 

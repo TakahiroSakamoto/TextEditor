@@ -36,5 +36,13 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return resizedImage!
     }
+    
+    func convertImageToBase64() -> String {
+        let imageData = UIImagePNGRepresentation(self)
+        let stringImageData = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
+        //空白を+に変換する
+        let base64String = stringImageData?.replacingOccurrences(of: " ", with: "+")
+        return base64String!
+    }
 }
 

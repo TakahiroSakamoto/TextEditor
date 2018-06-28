@@ -1,5 +1,5 @@
 //
-//  UrlTextField.swift
+//  MesionBackView.swift
 //  TestTextView
 //
 //  Created by 坂本貴宏 on 2018/06/26.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UrlTextField: UITextField {
+class BackView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,10 +18,10 @@ class UrlTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTextField(placeholder: String, superView: UIView) {
-        self.backgroundColor = UIColor.groupTableViewBackground
-        self.layer.cornerRadius = 6
-        self.placeholder = placeholder
+    func setBackView(superView: UIView) {
+        self.frame = superView.frame
+        self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         superView.addSubview(self)
     }
+
 }

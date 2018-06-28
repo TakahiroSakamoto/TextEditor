@@ -16,7 +16,6 @@ class UserManager: NSObject {
     static let sharedInstance = UserManager()
     var users: [SearchTextFieldItem] = []
     var keepAlive = true
-    var imag: UIImage!
     var indicator: UIActivityIndicatorView!
     
     // ユーザーを取得して、配列にぶち込む
@@ -26,7 +25,6 @@ class UserManager: NSObject {
         indicator.startAnimating()
         Alamofire.request("https://pressblog.me/api/v2/insta_users/search_by_account_name?account_name=\(keyword)&limit=30", method: .get).responseJSON { (responce) in
             guard let object = responce.result.value else {
-                print("エラー")
                 self.keepAlive = false
                 return
             }
@@ -44,7 +42,6 @@ class UserManager: NSObject {
                     UserManager.sharedInstance.users.append(user)
                 }
                 
-                print(UserManager.sharedInstance.users.count)
             }
             ViewController.searchField.filterItems(UserManager.sharedInstance.users)
             self.keepAlive = false

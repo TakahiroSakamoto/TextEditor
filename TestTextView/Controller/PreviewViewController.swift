@@ -11,7 +11,6 @@ import Fuzi
 import WebKit
 
 class PreviewViewController: UIViewController {
-    var convertAttributeText: NSAttributedString!
     var testHTML: String!
     var titleText: String!
     let indicator = UIActivityIndicatorView()
