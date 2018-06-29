@@ -19,7 +19,9 @@ class PreviewViewController: UIViewController {
         super.viewDidLoad()
         let wkWebView = WKWebView(frame: self.view.frame)
         self.view.addSubview(wkWebView)
+        
         testHTML = testHTML.replacingOccurrences(of: "<html>", with: "<html><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><style> body { font-size: 130%; font-family: Helvetica} </style>")
+    
         
         wkWebView.loadHTMLString(testHTML, baseURL: nil)
     }

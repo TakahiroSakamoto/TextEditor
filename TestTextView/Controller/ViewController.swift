@@ -15,8 +15,8 @@ import Fuzi
 import SystemConfiguration
 
 
- class ViewController: UIViewController, RegeributedTextViewDelegate {
-
+class ViewController: UIViewController, RegeributedTextViewDelegate {
+    
     @IBOutlet weak var titleTextView: TitleTextView!
     let kSelectTextInImage = UIView()
     // キーボード上のツールバー
@@ -49,7 +49,6 @@ import SystemConfiguration
     var urlText = [(url: String, urlText: String?)]()
     var titleText: String!
     var sumHtml: String!
-    private var stringAttributes: [NSAttributedStringKey: Any]!
     // URLを入力する
     private var urlTextField: UrlTextField!
     private var urlOptionalTextField: UrlTextField!
@@ -68,13 +67,11 @@ import SystemConfiguration
     // 分割したTextをHTML化し、格納
     private var htmls = [String]()
     private var attachments = [(range: NSRange, image: UIImage)]()
-    private var convertAttributeText: NSAttributedString!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.textView = RegeributedTextView()
         self.addToolBar()
-        self.stringAttributes = [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue, .underlineColor: UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1)]
         self.textView.delegate = self
         self.titleTextView.delegate = self
         self.titleTextView.placeHolder = "タイトルを入力"
@@ -147,7 +144,7 @@ import SystemConfiguration
         self.setUpSampleSearchTextField()
     }
     
-   class func makeMensionIndicator() -> UIActivityIndicatorView {
+    class func makeMensionIndicator() -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView()
         indicator.frame.origin = CGPoint(x: ViewController.searchField.frame.width - 20, y: ViewController.searchField.bounds.origin.y + 20)
         indicator.hidesWhenStopped = true
@@ -182,7 +179,7 @@ import SystemConfiguration
         self.urlTextField = UrlTextField(frame: CGRect(x: self.urlBackView.frame.origin.x+20, y: self.urlBackView.frame.height / 10, width: self.urlBackView.frame.size.width - 40, height: self.urlBackView.frame.height / 7))
         self.urlTextField.setTextField(placeholder: "http://", superView: self.urlBackView)
         self.urlTextField.addTarget(self, action: #selector(self.previewText), for: UIControlEvents.editingChanged)
-
+        
         self.urlOptionalTextField = UrlTextField(frame: CGRect(x: self.urlBackView.frame.origin.x+20, y: self.urlBackView.frame.height / 3.5, width: self.urlBackView.frame.size.width - 40, height: self.urlBackView.frame.height / 7))
         self.urlOptionalTextField.setTextField(placeholder: "任意テキスト", superView: self.urlBackView)
         self.urlOptionalTextField.addTarget(self, action: #selector(self.previewText) , for: UIControlEvents.editingChanged)
@@ -283,10 +280,9 @@ import SystemConfiguration
         
         self.sumHtml = self.htmls.joined()
         self.replaceHtmlString()
-        // Font、FontSizeがぶっ壊れてしまうバグを解消
-        self.convertAttributeText = self.sumHtml.convertHtml(withFont: UIFont(name: "Helvetica", size: 16), align: .left)
+     
     }
- 
+    
     func textToHtml(getRange: NSRange) {
         let documentAttributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
         let attT = self.textView.attributedText!
@@ -309,7 +305,7 @@ import SystemConfiguration
         do {
             let doc = try HTMLDocument(string: html!, encoding: .utf8)
             let changeString = "file:///Attachment.png"
-           
+            
             self.htmls.append((doc.body?.rawXML.replacingOccurrences(of: changeString, with: "data:image/png;base64,\(self.attachments[i].image.convertImageToBase64())"))!)
         } catch let error {
             print(error)
@@ -371,7 +367,7 @@ import SystemConfiguration
         }
         self.mensionUserName.append(ViewController.searchField.text!)
     }
-
+    
     @objc func keyboardWillBeShow(notification: NSNotification) {
         if let keyboardFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
             self.keyboardFrame = keyboardFrame
