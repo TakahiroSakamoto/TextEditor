@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		3D18808A20860A540095EA69 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D18808920860A540095EA69 /* UIView+Extension.swift */; };
+		3D22E4BC20E4AF2A00684481 /* ViewController+UITextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22E4BB20E4AF2A00684481 /* ViewController+UITextViewDelegate.swift */; };
+		3D22E4BE20E4C0FD00684481 /* ViewController+TLPhotosPickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22E4BD20E4C0FD00684481 /* ViewController+TLPhotosPickerViewControllerDelegate.swift */; };
 		3D30A2102094D4FB00E478F0 /* defaultProfileImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D30A20F2094D4FB00E478F0 /* defaultProfileImage.png */; };
 		3D342B782089E30A0014C198 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B772089E30A0014C198 /* User.swift */; };
 		3D342B7A2089E3EA0014C198 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B792089E3EA0014C198 /* UserManager.swift */; };
 		3D342B7C208D95BF0014C198 /* TitleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D342B7B208D95BF0014C198 /* TitleTextView.swift */; };
 		3D38478F20A8481000F3337F /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38478E20A8481000F3337F /* PreviewViewController.swift */; };
+		3D5227D920E4ABA900C5C531 /* ViewController+ReplaceHtml.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5227D820E4ABA900C5C531 /* ViewController+ReplaceHtml.swift */; };
 		3D575E4120E20BA600AB5C5A /* UrlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D575E4020E20BA600AB5C5A /* UrlButton.swift */; };
 		3D575E4320E20ED500AB5C5A /* MensionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D575E4220E20ED500AB5C5A /* MensionButton.swift */; };
 		3D575E4720E2151700AB5C5A /* UrlTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D575E4620E2151700AB5C5A /* UrlTextField.swift */; };
@@ -31,12 +34,15 @@
 /* Begin PBXFileReference section */
 		07C42E48E51F09DBFC6786EE /* Pods-TestTextView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestTextView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestTextView/Pods-TestTextView.debug.xcconfig"; sourceTree = "<group>"; };
 		3D18808920860A540095EA69 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		3D22E4BB20E4AF2A00684481 /* ViewController+UITextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+UITextViewDelegate.swift"; sourceTree = "<group>"; };
+		3D22E4BD20E4C0FD00684481 /* ViewController+TLPhotosPickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+TLPhotosPickerViewControllerDelegate.swift"; sourceTree = "<group>"; };
 		3D30A20F2094D4FB00E478F0 /* defaultProfileImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultProfileImage.png; sourceTree = "<group>"; };
 		3D311F0020B2D4A80041A115 /* URLEmbeddedView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = URLEmbeddedView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D342B772089E30A0014C198 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3D342B792089E3EA0014C198 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		3D342B7B208D95BF0014C198 /* TitleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextView.swift; sourceTree = "<group>"; };
 		3D38478E20A8481000F3337F /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		3D5227D820E4ABA900C5C531 /* ViewController+ReplaceHtml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ReplaceHtml.swift"; sourceTree = "<group>"; };
 		3D575E4020E20BA600AB5C5A /* UrlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlButton.swift; sourceTree = "<group>"; };
 		3D575E4220E20ED500AB5C5A /* MensionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MensionButton.swift; sourceTree = "<group>"; };
 		3D575E4620E2151700AB5C5A /* UrlTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlTextField.swift; sourceTree = "<group>"; };
@@ -85,6 +91,19 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3D5227D720E4A7B700C5C531 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3D826D09207C992400F27E10 /* UIImage+Extension.swift */,
+				3D18808920860A540095EA69 /* UIView+Extension.swift */,
+				3DDF388220A438A40018AF3C /* String+Extension.swift */,
+				3D5227D820E4ABA900C5C531 /* ViewController+ReplaceHtml.swift */,
+				3D22E4BB20E4AF2A00684481 /* ViewController+UITextViewDelegate.swift */,
+				3D22E4BD20E4C0FD00684481 /* ViewController+TLPhotosPickerViewControllerDelegate.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		3D826D07207C98D500F27E10 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,10 +116,7 @@
 		3D826D08207C98DF00F27E10 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3D826D09207C992400F27E10 /* UIImage+Extension.swift */,
-				3D18808920860A540095EA69 /* UIView+Extension.swift */,
 				3D342B7B208D95BF0014C198 /* TitleTextView.swift */,
-				3DDF388220A438A40018AF3C /* String+Extension.swift */,
 				3D575E4020E20BA600AB5C5A /* UrlButton.swift */,
 				3D575E4220E20ED500AB5C5A /* MensionButton.swift */,
 				3D575E4620E2151700AB5C5A /* UrlTextField.swift */,
@@ -131,6 +147,7 @@
 		3DAAA4CF204FB0C500A6A1DB /* TestTextView */ = {
 			isa = PBXGroup;
 			children = (
+				3D5227D720E4A7B700C5C531 /* Extensions */,
 				3D342B762089E2F70014C198 /* Model */,
 				3D826D08207C98DF00F27E10 /* View */,
 				3D826D07207C98D500F27E10 /* Controller */,
@@ -296,10 +313,12 @@
 				3D18808A20860A540095EA69 /* UIView+Extension.swift in Sources */,
 				3D575E4B20E2274B00AB5C5A /* BackView.swift in Sources */,
 				3D575E4320E20ED500AB5C5A /* MensionButton.swift in Sources */,
+				3D22E4BE20E4C0FD00684481 /* ViewController+TLPhotosPickerViewControllerDelegate.swift in Sources */,
 				3DAAA4D3204FB0C500A6A1DB /* ViewController.swift in Sources */,
 				3D38478F20A8481000F3337F /* PreviewViewController.swift in Sources */,
 				3DAAA4D1204FB0C500A6A1DB /* AppDelegate.swift in Sources */,
 				3D826D0A207C992400F27E10 /* UIImage+Extension.swift in Sources */,
+				3D5227D920E4ABA900C5C531 /* ViewController+ReplaceHtml.swift in Sources */,
 				3D575E4120E20BA600AB5C5A /* UrlButton.swift in Sources */,
 				3D90B80420E241B30055265C /* UserSearchTextField.swift in Sources */,
 				3D342B7A2089E3EA0014C198 /* UserManager.swift in Sources */,
@@ -307,6 +326,7 @@
 				3DDF388320A438A40018AF3C /* String+Extension.swift in Sources */,
 				3D342B7C208D95BF0014C198 /* TitleTextView.swift in Sources */,
 				3D575E4720E2151700AB5C5A /* UrlTextField.swift in Sources */,
+				3D22E4BC20E4AF2A00684481 /* ViewController+UITextViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +469,7 @@
 				INFOPLIST_FILE = TestTextView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/JSRunner.bundle/Contents/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sakamoto-takahiro.TestTextView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -467,6 +488,7 @@
 				INFOPLIST_FILE = TestTextView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/JSRunner.bundle/Contents/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sakamoto-takahiro.TestTextView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

@@ -24,7 +24,6 @@ class UserSearchTextField: SearchTextField {
         self.layer.cornerRadius = 6
         self.placeholder = "ユーザー名を入力"
         self.becomeFirstResponder()
-        self.delegate = ViewController()
         self.addTarget(ViewController(), action: action, for: .editingChanged)
         self.theme.font = UIFont.systemFont(ofSize: 16)
         self.theme.bgColor = UIColor.white
